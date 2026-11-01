@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Un viaje en chiva por Colombia para niños de 5 años.">
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Viaje en Chiva a Colombia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap">
+<style>
+/* Layout: una pantalla para proyectar; arriba la parada, al centro la escena (dibujo + texto), abajo la carretera de la chiva como progreso.
+   Tema único y luminoso a propósito (proyector y niños): colores de la bandera sobre un fondo de sol pálido. */
+:root{
+  --bg:#FFF4CC; --paper:#FFFFFF; --ink:#16244A; --ink-soft:#4A5880;
+  --yellow:#FCD116; --blue:#0B4FA8; --red:#D7262E; --green:#2E9E5B;
+  --display:"Baloo 2","Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;
+  --body:"Nunito","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:600;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));overflow:hidden}
+.app{height:100%;display:flex;flex-direction:column;gap:10px;padding-block:12px;max-width:1440px;margin:0 auto}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.stop-label{font-family:var(--display);font-weight:800;font-size:clamp(1rem,1.8vw,1.35rem);letter-spacing:.04em;text-transform:uppercase;color:var(--blue)}
+.stop-label span{color:var(--red)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer}
+.tool{display:inline-flex;align-items:center;gap:8px;border:3px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;font-family:var(--display);font-weight:800;font-size:1rem;box-shadow:0 3px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.tool:active{transform:translateY(3px);box-shadow:none}
+.tool svg{width:20px;height:20px}
+button:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+
+.stage{flex:1;min-height:0;overflow-y:auto;border-radius:28px;background:var(--paper);border:4px solid var(--ink);box-shadow:0 6px 0 var(--ink)}
+.slide{display:none;min-height:100%;grid-template-columns:1.9fr 1fr;gap:clamp(14px,2.4vw,32px);align-items:center;padding:clamp(16px,2.6vw,36px)}
+.slide.on{display:grid;animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.96);opacity:.4}to{transform:none;opacity:1}}
+.art{min-width:0;display:flex;align-items:center;justify-content:center}
+.art > svg{width:100%;height:auto;max-height:72vh;border-radius:22px}
+.copy{min-width:0;display:flex;flex-direction:column;gap:14px}
+h1,h2{font-family:var(--display);font-weight:800;line-height:1;margin:0;text-wrap:balance}
+h1{font-size:clamp(2.4rem,6vw,5rem);color:var(--blue)}
+h2{font-size:clamp(2rem,4.4vw,3.6rem);color:var(--blue)}
+h1 em,h2 em{font-style:normal;color:var(--red)}
+.copy p{margin:0;font-size:clamp(1.1rem,1.9vw,1.5rem);line-height:1.35;max-width:34ch}
+.talk{font-size:clamp(.95rem,1.35vw,1.1rem)!important;color:var(--ink-soft);border-left:5px solid var(--yellow);padding-left:12px}
+.talk b{color:var(--ink);font-family:var(--display);letter-spacing:.03em;text-transform:uppercase;font-size:.85em;display:block}
+
+.big{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;border:4px solid var(--ink);border-radius:999px;padding:10px 24px;font-family:var(--display);font-weight:800;font-size:clamp(1.15rem,2.1vw,1.6rem);background:var(--yellow);color:var(--ink);box-shadow:0 5px 0 var(--ink);transition:transform .1s,box-shadow .1s}
+.big:active{transform:translateY(5px);box-shadow:none}
+.big.red{background:var(--red);color:#fff}.big.blue{background:var(--blue);color:#fff}.big.green{background:var(--green);color:#fff}
+.big svg{width:28px;height:28px}
+
+.stripe{cursor:pointer;transition:filter .2s}.stripe:hover{filter:brightness(1.08)}
+.lit{animation:glow .6s}@keyframes glow{50%{filter:brightness(1.4)}}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{border:4px solid var(--ink);border-radius:18px;padding:8px 18px;font-family:var(--display);font-weight:800;font-size:clamp(1.1rem,2vw,1.5rem);box-shadow:0 4px 0 var(--ink)}
+.chip.y{background:var(--yellow);color:var(--ink)}.chip.b{background:var(--blue);color:#fff}.chip.r{background:var(--red);color:#fff}
+.bubble{background:var(--bg);border:3px dashed var(--ink);border-radius:20px;padding:14px 18px;font-size:clamp(1.05rem,1.8vw,1.45rem);line-height:1.3;min-height:3.2em}
+
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.4vw,16px);width:100%}
+.card{border:4px solid var(--ink);border-radius:22px;background:var(--paper);padding:6px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 5px 0 var(--ink);transition:transform .12s,box-shadow .12s;color:var(--ink)}
+.card:hover{transform:translateY(-3px)}
+.card:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.card svg{width:100%;height:auto;max-height:24vh}
+.card b{font-family:var(--display);font-weight:800;font-size:clamp(1rem,1.7vw,1.35rem);line-height:1.1;text-align:center}
+.card .tag{font-family:var(--display);font-weight:800;font-size:clamp(.85rem,1.3vw,1.05rem);border-radius:999px;padding:2px 12px;visibility:hidden}
+.card.shown .tag{visibility:visible;animation:pop .4s}
+.tag.co{background:var(--yellow);color:var(--ink)}.tag.ar{background:#74ACDF;color:var(--ink)}.tag.both{background:var(--green);color:#fff}
+.card.playing{animation:wiggle .5s}
+.card.right{background:#DFF5E6;border-color:var(--green)}
+.card.wrong{animation:shake .4s}
+@keyframes wiggle{25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+
+/* Animaciones de dibujos */
+.wheel{transform-box:fill-box;transform-origin:center;animation:spin 1.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bounce{animation:bounce .9s ease-in-out infinite}@keyframes bounce{50%{transform:translateY(-4px)}}
+.drive{animation:drive 1.2s ease-in-out}@keyframes drive{30%{transform:translateX(30px)}60%{transform:translateX(-10px)}}
+.steam path{animation:steam 2.4s ease-in-out infinite;opacity:.7}
+.steam path:nth-child(2){animation-delay:.6s}.steam path:nth-child(3){animation-delay:1.2s}
+@keyframes steam{0%{transform:translateY(6px);opacity:0}40%{opacity:.8}100%{transform:translateY(-14px);opacity:0}}
+.flap{transform-box:fill-box;transform-origin:20% 90%;animation:flap .12s linear infinite alternate}@keyframes flap{to{transform:rotate(-24deg)}}
+.dancer{transform-box:fill-box;transform-origin:50% 100%}
+.dancing .dancer{animation:sway .62s ease-in-out infinite alternate}
+.dancing .dancer.b{animation-delay:-.31s}
+@keyframes sway{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+.notes{opacity:0;transition:opacity .3s}.dancing .notes{opacity:1}
+.dancing .notes text{animation:float 1.3s ease-in-out infinite}
+.dancing .notes text:nth-child(2){animation-delay:.4s}.dancing .notes text:nth-child(3){animation-delay:.8s}
+@keyframes float{50%{transform:translateY(-10px)}}
+.waves{animation:waves 2.6s ease-in-out infinite alternate}@keyframes waves{to{transform:translateX(-14px)}}
+.sway-palm{transform-box:fill-box;transform-origin:50% 100%;animation:palm 3s ease-in-out infinite alternate}@keyframes palm{to{transform:rotate(3deg)}}
+#ball{transform-box:fill-box;transform-origin:center}
+#ball.kick{animation:shoot 1s cubic-bezier(.3,.6,.4,1) forwards}
+@keyframes shoot{to{transform:translate(132px,-96px) rotate(600deg) scale(.7)}}
+.kickleg{transform-box:fill-box;transform-origin:50% 0}
+.kicking .kickleg{animation:kick .4s ease-out}@keyframes kick{50%{transform:rotate(-40deg)}}
+
+.steps{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none;counter-reset:s}
+.steps li{display:flex;gap:12px;align-items:center;font-size:clamp(1.05rem,1.8vw,1.35rem);counter-increment:s}
+.steps li::before{content:counter(s);flex:none;width:2em;height:2em;border-radius:50%;display:grid;place-items:center;background:var(--red);color:#fff;font-family:var(--display);font-weight:800}
+
+.quizq{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3vw,2.4rem);line-height:1.1;color:var(--ink)}
+.stars{display:flex;gap:6px}
+.stars svg{width:clamp(28px,3vw,40px);height:auto}
+
+/* Carretera de progreso */
+.nav{display:flex;align-items:center;gap:12px}
+.arrow{flex:none;width:60px;height:60px;border-radius:50%;border:4px solid var(--ink);background:var(--yellow);color:var(--ink);display:grid;place-items:center;box-shadow:0 4px 0 var(--ink)}
+.arrow:active{transform:translateY(4px);box-shadow:none}
+.arrow:disabled{opacity:.35;cursor:default}
+.arrow svg{width:30px;height:30px}
+.road{position:relative;flex:1;min-width:0;height:60px}
+.road::before{content:"";position:absolute;left:10px;right:10px;top:38px;height:10px;border-radius:8px;background:var(--ink-soft)}
+.road::after{content:"";position:absolute;left:14px;right:14px;top:42px;border-top:2px dashed var(--bg)}
+.dots{position:absolute;inset:0;display:flex;justify-content:space-between;padding:0 2px}
+.dot{position:relative;z-index:1;width:24px;height:24px;margin-top:31px;border-radius:50%;border:4px solid var(--ink);background:var(--paper);padding:0}
+.dot.done{background:var(--yellow)}
+.dot span{display:none}
+.mini{position:absolute;top:-2px;width:52px;z-index:2;transition:left .6s cubic-bezier(.3,1.3,.5,1);pointer-events:none}
+
+@media (max-width:760px){
+  .slide{grid-template-columns:1fr}
+  .art > svg{max-height:36vh}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .arrow{width:48px;height:48px}
+  .dot{width:16px;height:16px;margin-top:35px;border-width:3px}
+  body{overflow:auto}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.art > img.photo{width:100%;max-height:72vh;object-fit:cover;border-radius:22px;border:4px solid var(--ink);display:block}
+.card img{width:100%;aspect-ratio:160/130;object-fit:cover;border-radius:14px;max-height:24vh}
+.pos{position:relative}
+.flyer{position:absolute;width:15%;left:86%;top:82%;transition:none;pointer-events:none}
+.flyer.go{animation:fly 3.4s ease-in-out forwards}
+@keyframes fly{0%{left:86%;top:82%;transform:rotate(-150deg)}55%{left:72%;top:22%;transform:rotate(-190deg)}100%{left:36%;top:44%;transform:rotate(-200deg) scale(.8)}}
+.dancing img.photo{animation:sway-img .62s ease-in-out infinite alternate}
+@keyframes sway-img{from{transform:rotate(-1.5deg) scale(1.01)}to{transform:rotate(1.5deg) scale(1.01)}}
+.honked{animation:drive 1.2s ease-in-out}
+@media (max-width:760px){.art > img.photo{max-height:36vh}}
+.card img.cut{object-fit:contain;background:radial-gradient(circle at 50% 55%,#EAF6FF 0 60%,#fff 61%);padding:4px}
+.fchips{display:flex;flex-wrap:wrap;gap:8px}
+.fchip{border:3px solid var(--ink);border-radius:999px;background:var(--paper);color:var(--ink);padding:6px 14px;font-family:var(--display);font-weight:800;font-size:clamp(1rem,1.6vw,1.25rem);box-shadow:0 3px 0 var(--ink)}
+.fchip:active{transform:translateY(3px);box-shadow:none}
+.fchip.playing{background:var(--yellow);animation:none}
+a.big{text-decoration:none}
+.mapbox{position:relative;width:100%;max-width:calc(72vh * 698 / 433);aspect-ratio:698/433;border-radius:22px;overflow:hidden;border:4px solid var(--ink)}
+.mapbox img{width:100%;height:100%;object-fit:cover;display:block}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+@media (max-width:760px){.mapbox{max-width:calc(36vh * 698 / 433)}}
+.gallery{width:100%;max-width:calc((100vh - 330px) * 1.6);display:flex;flex-direction:column;gap:10px;min-width:0}
+.gmain{position:relative}
+.gallery .gmain img.photo{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-radius:22px;border:4px solid var(--ink)}
+.gcap{position:absolute;left:14px;bottom:14px;background:var(--yellow);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:4px 16px;font-family:var(--display);font-weight:800;font-size:clamp(1rem,1.8vw,1.4rem);box-shadow:0 3px 0 var(--ink)}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:8px}
+.thumb img{aspect-ratio:16/9!important}
+.thumb{padding:0;border:4px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--paper);box-shadow:0 3px 0 var(--ink);opacity:.75;transition:transform .12s,opacity .12s}
+.thumb img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.thumb:hover{opacity:1;transform:translateY(-2px)}
+.thumb.on{opacity:1;border-color:var(--red);box-shadow:0 3px 0 var(--red)}
+.gmain img.swap{animation:pop .4s}
+@media (max-width:760px){.gallery{max-width:calc(30vh * 1.6)}}
+canvas#confetti{position:fixed;inset:0;pointer-events:none;z-index:20;width:100%;height:100%}
+</style>
+
+<!-- Biblioteca de dibujos reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC8F7"/><stop offset="1" stop-color="#E6F6FF"/></linearGradient>
+    <linearGradient id="gSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3FB4E8"/><stop offset="1" stop-color="#1767B0"/></linearGradient>
+    <radialGradient id="gGloss" cx=".35" cy=".3" r=".65"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="gGround" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="gYellow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE766"/><stop offset="1" stop-color="#EFB000"/></linearGradient>
+    <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0444C"/><stop offset="1" stop-color="#B0141C"/></linearGradient>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2F74D0"/><stop offset="1" stop-color="#083A80"/></linearGradient>
+    <linearGradient id="gSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2AE80"/><stop offset="1" stop-color="#B57649"/></linearGradient>
+    <linearGradient id="gSkinD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9A6440"/><stop offset="1" stop-color="#5E3A24"/></linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5CCB84"/><stop offset="1" stop-color="#1D7442"/></linearGradient>
+    <linearGradient id="gLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6BD48A"/><stop offset="1" stop-color="#22804A"/></linearGradient>
+    <linearGradient id="gHum" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46E3A6"/><stop offset="1" stop-color="#0A6E66"/></linearGradient>
+    <linearGradient id="gPink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC2D8"/><stop offset="1" stop-color="#E2679A"/></linearGradient>
+    <linearGradient id="gBear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A4134"/><stop offset="1" stop-color="#241812"/></linearGradient>
+    <linearGradient id="gBlack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3C3C48"/><stop offset="1" stop-color="#121218"/></linearGradient>
+    <linearGradient id="gWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4875A"/><stop offset="1" stop-color="#7A4B2A"/></linearGradient>
+    <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE14D"/><stop offset="1" stop-color="#E89A00"/></linearGradient>
+    <linearGradient id="gBeak" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7AC943"/><stop offset=".55" stop-color="#F7941D"/><stop offset="1" stop-color="#E8412E"/></linearGradient>
+    <linearGradient id="gCherry" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2414A"/><stop offset="1" stop-color="#9E0F18"/></linearGradient>
+    <linearGradient id="gArepa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9DA8B"/><stop offset="1" stop-color="#E0A23A"/></linearGradient>
+    <linearGradient id="gRiver" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FB89A"/><stop offset="1" stop-color="#5E8B6E"/></linearGradient>
+
+    <!-- flor para la silleta: el color sale de currentColor -->
+    <symbol id="fl" viewBox="-14 -14 28 28">
+      <g fill="currentColor" stroke="#2B2233" stroke-width="1.6">
+        <circle cx="0" cy="-7" r="6"/><circle cx="6.7" cy="-2.2" r="6"/><circle cx="4.1" cy="5.7" r="6"/><circle cx="-4.1" cy="5.7" r="6"/><circle cx="-6.7" cy="-2.2" r="6"/>
+      </g>
+      <circle r="4" fill="#FFD43B" stroke="#2B2233" stroke-width="1.6"/>
+    </symbol>
+
+    <!-- ===== Animales (160x130) ===== -->
+    <symbol id="s-colibri" viewBox="0 0 160 130">
+      <circle cx="80" cy="65" r="60" fill="#E3F6EC"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M24 128 C26 104 32 90 42 80" fill="none" stroke="#2E8B4E" stroke-width="5"/>
+        <path d="M42 80 l-16 -6 l12 16z M44 92 l-18 -2 l14 12z M40 104 l-16 2 l14 10z" fill="#E8412E"/>
+        <path d="M26 74 l4 2 M26 90 l4 1 M24 106 l4 -1" stroke="#FFD43B" stroke-width="3"/>
+        <path d="M62 80 L30 98 L40 86 L24 84 L48 72 Z" fill="#0B6B5C"/>
+        <ellipse cx="82" cy="72" rx="31" ry="17" transform="rotate(-18 82 72)" fill="url(#gHum)"/>
+        <ellipse cx="88" cy="80" rx="16" ry="7" transform="rotate(-18 88 80)" fill="#EAF7E4" stroke="none" opacity=".9"/>
+        <circle cx="110" cy="56" r="14" fill="url(#gHum)"/>
+        <path d="M97 64 C104 74 117 71 121 62 C114 67 104 67 97 64Z" fill="#E0245E" stroke-width="2"/>
+        <path d="M123 55 L157 49 L124 61 Z" fill="#2B2233"/>
+        <g class="flap"><path d="M80 62 C70 30 90 10 112 12 C102 28 100 46 90 64 Z" fill="#C4F4E2" opacity=".9"/><path d="M86 56 L100 22 M90 60 L106 28" stroke="#6BC9A6" stroke-width="2"/></g>
+      </g>
+      <circle cx="114" cy="53" r="4.4" fill="#2B2233"/><circle cx="115.6" cy="51.4" r="1.6" fill="#fff"/>
+      <ellipse cx="78" cy="64" rx="14" ry="6" transform="rotate(-18 78 64)" fill="url(#gGloss)"/>
+    </symbol>
+
+    <symbol id="s-condor" viewBox="0 0 160 130">
+      <circle cx="80" cy="65" r="60" fill="#DCEBFA"/>
+      <path d="M22 118 L56 76 L76 98 L104 62 L140 118Z" fill="#B9C6D8"/><path d="M104 62 L94 76 L102 74 L108 80 L114 72Z M56 76 L50 84 L58 82 L62 86Z" fill="#fff"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <path d="M80 66 C56 40 26 34 4 48 C12 50 18 54 22 58 C16 58 12 62 10 68 C30 64 46 68 62 80 Z" fill="url(#gBlack)"/>
+        <path d="M80 66 C104 40 134 34 156 48 C148 50 142 54 138 58 C144 58 148 62 150 68 C130 64 114 68 98 80 Z" fill="url(#gBlack)"/>
+        <path d="M18 54 C32 52 46 58 60 70 M142 54 C128 52 114 58 100 70" fill="none" stroke="#fff" stroke-width="4"/>
+        <path d="M70 104 L80 124 L90 104 Z" fill="#1A1A22"/>
+        <ellipse cx="80" cy="86" rx="19" ry="26" fill="url(#gBlack)"/>
+        <ellipse cx="80" cy="60" rx="16" ry="7" fill="#fff" stroke-width="2.5"/>
+        <circle cx="80" cy="44" r="12" fill="#C9877A"/>
+        <path d="M73 34 q7 -10 14 0" fill="#9C5A52" stroke-width="2"/>
+        <path d="M76 47 L84 47 L80 58 Z" fill="#EBDCA4" stroke-width="2"/>
+      </g>
+      <circle cx="75.5" cy="42" r="2.6" fill="#2B2233"/><circle cx="84.5" cy="42" r="2.6" fill="#2B2233"/>
+      <circle cx="76.3" cy="41.2" r=".9" fill="#fff"/><circle cx="85.3" cy="41.2" r=".9" fill="#fff"/>
+      <ellipse cx="74" cy="80" rx="7" ry="10" fill="url(#gGloss)"/>
+    </symbol>
+
+    <symbol id="s-oso" viewBox="0 0 160 130">
+      <circle cx="80" cy="65" r="60" fill="#E4F0D8"/>
+      <path d="M24 40 q10 -14 22 -4 q-10 2 -22 4z M126 34 q12 -8 20 6 q-10 -4 -20 -6z" fill="#7CC07A"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <ellipse cx="80" cy="104" rx="42" ry="24" fill="url(#gBear)"/>
+        <path d="M66 86 C72 98 88 98 94 86 L92 108 C86 114 74 114 68 108 Z" fill="#F0D9A8" stroke-width="2.5"/>
+        <circle cx="54" cy="26" r="11" fill="url(#gBear)"/><circle cx="106" cy="26" r="11" fill="url(#gBear)"/>
+        <circle cx="54" cy="26" r="5" fill="#7A5644" stroke="none"/><circle cx="106" cy="26" r="5" fill="#7A5644" stroke="none"/>
+        <circle cx="80" cy="56" r="32" fill="url(#gBear)"/>
+        <path d="M56 50 C58 38 74 36 78 46 C82 36 98 38 104 50 C102 60 92 60 86 56 L84 66 L76 66 L74 56 C68 60 58 60 56 50Z" fill="#F0D9A8" stroke-width="2.5"/>
+        <ellipse cx="80" cy="72" rx="14" ry="11" fill="#F6E6C2" stroke-width="2.5"/>
+        <ellipse cx="80" cy="66" rx="6.5" ry="4.5" fill="#2B2233"/>
+        <path d="M73 76 q7 6 14 0" fill="none" stroke-linecap="round"/>
+      </g>
+      <circle cx="68" cy="50" r="4" fill="#2B2233"/><circle cx="92" cy="50" r="4" fill="#2B2233"/>
+      <circle cx="69.4" cy="48.6" r="1.4" fill="#fff"/><circle cx="93.4" cy="48.6" r="1.4" fill="#fff"/>
+      <ellipse cx="70" cy="38" rx="12" ry="7" fill="url(#gGloss)"/>
+    </symbol>
+
+    <symbol id="s-delfin" viewBox="0 0 160 130">
+      <circle cx="80" cy="65" r="60" fill="#E4F3EE"/>
+      <path d="M20 76 q8 -16 16 -4 q6 -18 16 -2 q8 -14 16 0 q10 -16 18 0 q8 -12 16 2 q8 -14 18 2 q6 -10 14 4 L140 84 H20Z" fill="#2E8B4E"/>
+      <path d="M20 84 H140 C140 110 116 125 80 125 C44 125 20 110 20 84Z" fill="url(#gRiver)"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <path d="M24 100 C30 62 92 40 128 64 C134 60 140 56 150 58 C146 62 142 66 140 70 C136 72 132 72 128 72 C108 92 66 102 42 96 L22 112 L28 96 Z" fill="url(#gPink)"/>
+        <path d="M118 54 C124 48 132 50 134 56" fill="none" stroke-width="2.5"/>
+        <path d="M78 56 L68 34 L96 52" fill="#E070A0"/>
+        <path d="M80 92 C84 102 94 106 100 100" fill="#E070A0" stroke-width="2.5"/>
+      </g>
+      <circle cx="120" cy="64" r="3.4" fill="#2B2233"/><circle cx="121" cy="63" r="1.1" fill="#fff"/>
+      <ellipse cx="80" cy="66" rx="24" ry="8" transform="rotate(-14 80 66)" fill="url(#gGloss)"/>
+      <g fill="#fff" stroke="#2B2233" stroke-width="2"><circle cx="30" cy="112" r="4"/><circle cx="44" cy="116" r="3"/><circle cx="20" cy="104" r="3"/></g>
+    </symbol>
+
+    <symbol id="s-tucan" viewBox="0 0 160 130">
+      <circle cx="80" cy="65" r="60" fill="#FFF0D6"/>
+      <path d="M14 104 C50 96 100 98 150 92" fill="none" stroke="#7A4B2A" stroke-width="7" stroke-linecap="round"/>
+      <path d="M118 96 q10 -16 24 -12 q-8 10 -24 12z" fill="url(#gLeaf)" stroke="#2B2233" stroke-width="2"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <path d="M50 96 L36 126 L58 102 Z" fill="#1A1A22"/>
+        <ellipse cx="60" cy="72" rx="22" ry="32" fill="url(#gBlack)"/>
+        <path d="M50 96 q4 8 14 6" fill="#E8412E" stroke-width="2.5"/>
+        <ellipse cx="70" cy="56" rx="14" ry="15" fill="#FFD43B"/>
+        <circle cx="66" cy="40" r="17" fill="url(#gBlack)"/>
+        <path d="M80 32 C104 22 138 28 154 46 C134 52 104 54 80 50 Z" fill="url(#gBeak)"/>
+        <path d="M82 42 C104 40 130 42 150 46" fill="none" stroke-width="2"/>
+        <circle cx="72" cy="38" r="7" fill="#7BD3F7" stroke-width="2.5"/>
+        <path d="M58 104 l-2 8 M68 104 l2 8" stroke-width="3"/>
+      </g>
+      <circle cx="72" cy="38" r="3.2" fill="#2B2233"/><circle cx="73" cy="37" r="1.1" fill="#fff"/>
+      <ellipse cx="108" cy="34" rx="16" ry="4" fill="url(#gGloss)"/>
+      <ellipse cx="54" cy="62" rx="7" ry="12" fill="url(#gGloss)"/>
+    </symbol>
+
+    <symbol id="s-rana" viewBox="0 0 160 130">
+      <circle cx="80" cy="65" r="60" fill="#DDF2D6"/>
+      <path d="M14 116 C40 80 110 76 150 112 C110 104 50 104 14 116Z" fill="url(#gLeaf)" stroke="#2B2233" stroke-width="3"/>
+      <path d="M30 110 C60 96 100 96 138 108" fill="none" stroke="#1D7442" stroke-width="2.5"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <path d="M46 98 C34 96 30 110 42 110 L58 106 Z" fill="url(#gGold)"/>
+        <path d="M114 98 C126 96 130 110 118 110 L102 106 Z" fill="url(#gGold)"/>
+        <ellipse cx="80" cy="84" rx="36" ry="24" fill="url(#gGold)"/>
+        <circle cx="62" cy="60" r="12" fill="url(#gGold)"/><circle cx="98" cy="60" r="12" fill="url(#gGold)"/>
+        <path d="M60 100 l-8 10 M66 102 l-2 12 M100 100 l8 10 M94 102 l2 12" stroke-width="3"/>
+        <path d="M62 86 Q80 98 98 86" fill="none" stroke-linecap="round"/>
+      </g>
+      <g fill="#2B2233"><circle cx="62" cy="60" r="6"/><circle cx="98" cy="60" r="6"/><circle cx="50" cy="111" r="3"/><circle cx="62" cy="116" r="3"/><circle cx="110" cy="111" r="3"/><circle cx="98" cy="116" r="3"/></g>
+      <circle cx="64" cy="58" r="2" fill="#fff"/><circle cx="100" cy="58" r="2" fill="#fff"/>
+      <circle cx="70" cy="80" r="2.4" fill="#F28C8C" opacity=".6"/><circle cx="90" cy="80" r="2.4" fill="#F28C8C" opacity=".6"/>
+      <ellipse cx="72" cy="74" rx="16" ry="7" fill="url(#gGloss)"/>
+    </symbol>
+
+    <!-- ===== Banderas (160x130) ===== -->
+    <symbol id="s-flag-co" viewBox="0 0 160 130">
+      <g stroke="#2B2233" stroke-width="3"><rect x="18" y="22" width="124" height="44" fill="url(#gYellow)"/><rect x="18" y="66" width="124" height="22" fill="url(#gBlue)"/><rect x="18" y="88" width="124" height="22" fill="url(#gRed)"/></g>
+      <rect x="22" y="26" width="60" height="10" fill="#fff" opacity=".3"/>
+    </symbol>
+    <symbol id="s-flag-ar" viewBox="0 0 160 130">
+      <g stroke="#2B2233" stroke-width="3"><rect x="18" y="22" width="124" height="29.3" fill="#74ACDF"/><rect x="18" y="51.3" width="124" height="29.4" fill="#fff"/><rect x="18" y="80.7" width="124" height="29.3" fill="#74ACDF"/></g>
+      <g stroke="#E8A200" stroke-width="2.4" stroke-linecap="round"><path d="M80 54v-4M80 78v4M68 66h-4M92 66h4M71.5 57.5l-3-3M88.5 74.5l3 3M88.5 57.5l3-3M71.5 74.5l-3 3"/></g>
+      <circle cx="80" cy="66" r="8" fill="#FCBF49" stroke="#C47F00" stroke-width="2"/>
+    </symbol>
+    <symbol id="s-flag-br" viewBox="0 0 160 130">
+      <rect x="18" y="22" width="124" height="88" fill="#1F9E4A" stroke="#2B2233" stroke-width="3"/>
+      <path d="M80 30 L134 66 L80 102 L26 66 Z" fill="#FEDD00"/>
+      <circle cx="80" cy="66" r="20" fill="#0A3A8C"/>
+      <path d="M61 62 C74 58 90 60 99 68" fill="none" stroke="#fff" stroke-width="4"/>
+    </symbol>
+
+    <!-- ===== Comidas (160x130) ===== -->
+    <symbol id="s-arepa" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="104" rx="68" ry="17" fill="#fff" stroke="#2B2233" stroke-width="3"/><ellipse cx="80" cy="102" rx="50" ry="10" fill="#EEF1F6"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <ellipse cx="80" cy="88" rx="50" ry="16" fill="#C68A2E"/>
+        <ellipse cx="80" cy="78" rx="50" ry="20" fill="url(#gArepa)"/>
+        <path d="M50 70 l10 14 M70 64 l12 16 M92 64 l10 14" stroke="#9A6418" stroke-width="4"/>
+        <path d="M56 74c8-14 36-14 46-2 4 6-2 10-4 14-2-6-6-4-8 2-2-6-8-4-10 0-2-6-8-4-10-2-4-4-8-4-14-12z" fill="#FFFCEB" stroke-width="2.5"/>
+        <rect x="74" y="62" width="16" height="10" rx="2" fill="#FFE27A" stroke-width="2" transform="rotate(-10 82 67)"/>
+      </g>
+      <ellipse cx="66" cy="70" rx="18" ry="6" fill="url(#gGloss)"/>
+    </symbol>
+    <symbol id="s-mate" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="120" rx="34" ry="5" fill="url(#gGround)"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <path d="M50 48 C40 70 44 108 80 116 C116 108 120 70 110 48 Z" fill="#8A5A34"/>
+        <path d="M48 52 H112" stroke="#C9CED8" stroke-width="7"/>
+        <ellipse cx="80" cy="46" rx="30" ry="8" fill="#5FA845"/>
+        <path d="M94 6 L82 44" stroke="#AEB6C6" stroke-width="6" stroke-linecap="round"/>
+        <path d="M90 4 h10" stroke="#AEB6C6" stroke-width="5" stroke-linecap="round"/>
+      </g>
+      <path d="M58 64 C54 80 58 98 70 106" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="5" stroke-linecap="round"/>
+      <path d="M93 8 L84 40" stroke="#fff" stroke-width="1.6" opacity=".7"/>
+    </symbol>
+    <symbol id="s-empanada" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="106" rx="68" ry="16" fill="#fff" stroke="#2B2233" stroke-width="3"/>
+      <defs><linearGradient id="gEmp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7CB80"/><stop offset="1" stop-color="#D08A3A"/></linearGradient></defs>
+      <path d="M24 98 A56 50 0 0 1 136 98 Z" fill="url(#gEmp)" stroke="#2B2233" stroke-width="3" stroke-linejoin="round"/>
+      <g fill="#E0A055" stroke="#2B2233" stroke-width="2.2">
+        <ellipse cx="30" cy="80" rx="7" ry="5" transform="rotate(-60 30 80)"/><ellipse cx="38" cy="64" rx="7" ry="5" transform="rotate(-45 38 64)"/><ellipse cx="51" cy="53" rx="7" ry="5" transform="rotate(-25 51 53)"/><ellipse cx="66" cy="48" rx="7" ry="5" transform="rotate(-10 66 48)"/><ellipse cx="82" cy="47" rx="7" ry="5"/><ellipse cx="98" cy="49" rx="7" ry="5" transform="rotate(12 98 49)"/><ellipse cx="112" cy="56" rx="7" ry="5" transform="rotate(30 112 56)"/><ellipse cx="123" cy="67" rx="7" ry="5" transform="rotate(48 123 67)"/><ellipse cx="130" cy="82" rx="7" ry="5" transform="rotate(64 130 82)"/>
+      </g>
+      <ellipse cx="66" cy="74" rx="22" ry="9" fill="url(#gGloss)"/>
+      <g fill="#B87430"><circle cx="90" cy="84" r="2"/><circle cx="60" cy="88" r="2"/><circle cx="104" cy="76" r="2"/></g>
+    </symbol>
+    <symbol id="s-tinto" viewBox="0 0 160 130">
+      <g class="steam" stroke="#8A93AD" stroke-width="3.5" fill="none" stroke-linecap="round"><path d="M66 36c-6-8 6-12 0-22"/><path d="M80 34c-6-8 6-12 0-22"/><path d="M94 36c-6-8 6-12 0-22"/></g>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <ellipse cx="80" cy="108" rx="56" ry="12" fill="#fff"/>
+        <path d="M108 60c22-2 22 30-4 28" fill="none" stroke-width="6"/>
+        <path d="M46 50h68l-6 44c-2 9-10 14-20 14h-16c-10 0-18-5-20-14z" fill="#fff"/>
+        <path d="M48 62h64" stroke="#0B4FA8" stroke-width="5"/>
+        <ellipse cx="80" cy="51" rx="34" ry="6" fill="#3B1B0A"/>
+      </g>
+      <path d="M54 66 C54 80 56 92 62 100" stroke="#C9D2E2" stroke-width="5" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="s-arequipe" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="122" rx="38" ry="5" fill="url(#gGround)"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <rect x="50" y="34" width="60" height="84" rx="12" fill="#E9F3FA" fill-opacity=".9"/>
+        <rect x="54" y="52" width="52" height="62" rx="8" fill="#A9652B"/>
+        <rect x="46" y="20" width="68" height="18" rx="5" fill="url(#gRed)"/>
+        <rect x="58" y="70" width="44" height="26" rx="5" fill="#FFF8E6" stroke-width="2.5"/>
+        <path d="M104 6 L92 58" stroke="#AEB6C6" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <path d="M66 80 h28 M66 88 h18" stroke="#D7262E" stroke-width="3" stroke-linecap="round"/>
+      <rect x="56" y="40" width="8" height="70" rx="4" fill="#fff" opacity=".45"/>
+    </symbol>
+    <symbol id="s-alfajor" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="110" rx="62" ry="12" fill="#fff" stroke="#2B2233" stroke-width="3"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <ellipse cx="80" cy="94" rx="44" ry="13" fill="#E9C99A"/>
+        <rect x="36" y="80" width="88" height="14" fill="#E9C99A" stroke="none"/>
+        <ellipse cx="80" cy="80" rx="46" ry="13" fill="#A9652B"/>
+        <ellipse cx="80" cy="72" rx="44" ry="13" fill="#E9C99A"/>
+        <path d="M36 72 v6 M124 72 v6" stroke-width="3"/>
+      </g>
+      <g fill="#fff" stroke="#C9B48E" stroke-width=".8"><circle cx="40" cy="80" r="3"/><circle cx="50" cy="84" r="3"/><circle cx="62" cy="86" r="3"/><circle cx="76" cy="87" r="3"/><circle cx="90" cy="87" r="3"/><circle cx="104" cy="85" r="3"/><circle cx="116" cy="82" r="3"/><circle cx="122" cy="78" r="2.6"/></g>
+      <g fill="#fff" opacity=".85"><circle cx="66" cy="68" r="1.6"/><circle cx="74" cy="72" r="1.4"/><circle cx="86" cy="68" r="1.6"/><circle cx="96" cy="73" r="1.4"/><circle cx="80" cy="76" r="1.4"/><circle cx="60" cy="74" r="1.2"/></g>
+    </symbol>
+
+    <!-- ===== Frutas (160x130) ===== -->
+    <symbol id="s-maracuya" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="120" rx="60" ry="6" fill="url(#gGround)"/>
+      <path d="M40 30 C30 14 44 6 56 14 C52 22 48 26 40 30Z" fill="url(#gLeaf)" stroke="#2B2233" stroke-width="2.5"/>
+      <ellipse cx="54" cy="70" rx="34" ry="40" fill="url(#gGold)" stroke="#2B2233" stroke-width="3"/>
+      <g fill="#C98A00" opacity=".6"><circle cx="40" cy="60" r="2"/><circle cx="62" cy="52" r="1.6"/><circle cx="48" cy="86" r="2"/><circle cx="66" cy="78" r="1.6"/><circle cx="36" cy="76" r="1.4"/></g>
+      <ellipse cx="44" cy="52" rx="12" ry="16" fill="url(#gGloss)"/>
+      <ellipse cx="114" cy="86" rx="34" ry="28" fill="#F2C200" stroke="#2B2233" stroke-width="3"/>
+      <ellipse cx="114" cy="86" rx="26" ry="21" fill="#FFF2B0"/>
+      <ellipse cx="114" cy="86" rx="22" ry="17" fill="#F7A21B"/>
+      <g fill="#2B2233"><circle cx="104" cy="80" r="2.6"/><circle cx="114" cy="76" r="2.6"/><circle cx="124" cy="82" r="2.6"/><circle cx="108" cy="92" r="2.6"/><circle cx="120" cy="94" r="2.6"/><circle cx="114" cy="86" r="2.6"/><circle cx="128" cy="90" r="2.2"/><circle cx="100" cy="88" r="2.2"/></g>
+    </symbol>
+    <symbol id="s-lulo" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="120" rx="60" ry="6" fill="url(#gGround)"/>
+      <defs><linearGradient id="gLulo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB347"/><stop offset="1" stop-color="#E06B00"/></linearGradient></defs>
+      <circle cx="56" cy="74" r="38" fill="url(#gLulo)" stroke="#2B2233" stroke-width="3"/>
+      <path d="M56 38 l-14 -8 l8 12 l-14 2 l14 4 l-6 10 l12 -8 l12 8 l-6 -10 l14 -4 l-14 -2 l8 -12z" fill="#5FA845" stroke="#2B2233" stroke-width="2.2" stroke-linejoin="round"/>
+      <ellipse cx="44" cy="60" rx="12" ry="14" fill="url(#gGloss)"/>
+      <circle cx="116" cy="88" r="30" fill="url(#gLulo)" stroke="#2B2233" stroke-width="3"/>
+      <circle cx="116" cy="88" r="24" fill="#B8D86A"/>
+      <circle cx="116" cy="88" r="6" fill="#E9F2C0"/>
+      <g stroke="#7A9A2E" stroke-width="2"><path d="M116 82 V66 M116 94 V110 M110 88 H94 M122 88 H138 M111 83 L100 72 M121 93 L132 104 M121 83 L132 72 M111 93 L100 104"/></g>
+      <g fill="#F6F0C8"><circle cx="106" cy="76" r="2"/><circle cx="126" cy="76" r="2"/><circle cx="106" cy="100" r="2"/><circle cx="126" cy="100" r="2"/></g>
+    </symbol>
+    <symbol id="s-guanabana" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="120" rx="60" ry="6" fill="url(#gGround)"/>
+      <path d="M54 14 q6 -8 12 0 l-4 12z" fill="#7A4B2A" stroke="#2B2233" stroke-width="2.5"/>
+      <path d="M58 24 C22 30 18 90 46 110 C66 122 92 104 92 74 C92 46 78 22 58 24Z" fill="url(#gGreen)" stroke="#2B2233" stroke-width="3"/>
+      <g fill="none" stroke="#123F24" stroke-width="2.4" stroke-linecap="round"><path d="M40 46 q-4 -2 -2 -6"/><path d="M62 40 q-4 -2 -2 -6"/><path d="M78 56 q-4 -2 -2 -6"/><path d="M34 70 q-4 -2 -2 -6"/><path d="M56 64 q-4 -2 -2 -6"/><path d="M80 80 q-4 -2 -2 -6"/><path d="M44 92 q-4 -2 -2 -6"/><path d="M66 88 q-4 -2 -2 -6"/><path d="M60 108 q-4 -2 -2 -6"/></g>
+      <ellipse cx="46" cy="50" rx="10" ry="16" fill="url(#gGloss)"/>
+      <path d="M100 112 L104 70 C112 60 134 60 142 70 L146 112 Z" fill="#FFFDF4" stroke="#2B2233" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M104 70 C112 60 134 60 142 70" fill="none" stroke="#2E9E5B" stroke-width="5"/>
+      <g fill="#2B2233"><ellipse cx="116" cy="84" rx="3" ry="4.5"/><ellipse cx="130" cy="92" rx="3" ry="4.5"/><ellipse cx="118" cy="102" rx="3" ry="4.5"/></g>
+    </symbol>
+    <symbol id="s-granadilla" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="120" rx="60" ry="6" fill="url(#gGround)"/>
+      <defs><linearGradient id="gGran" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB13B"/><stop offset="1" stop-color="#D9780A"/></linearGradient></defs>
+      <path d="M56 24 C60 14 66 10 74 8" fill="none" stroke="#5FA845" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="54" cy="70" r="40" fill="url(#gGran)" stroke="#2B2233" stroke-width="3"/>
+      <g fill="#FFF3D6"><circle cx="38" cy="62" r="2.4"/><circle cx="56" cy="50" r="2"/><circle cx="70" cy="66" r="2.4"/><circle cx="44" cy="86" r="2"/><circle cx="64" cy="92" r="2.4"/><circle cx="30" cy="76" r="1.8"/><circle cx="76" cy="84" r="1.8"/></g>
+      <ellipse cx="42" cy="52" rx="12" ry="14" fill="url(#gGloss)"/>
+      <circle cx="118" cy="88" r="28" fill="url(#gGran)" stroke="#2B2233" stroke-width="3"/>
+      <ellipse cx="118" cy="82" rx="22" ry="12" fill="#fff" stroke="#2B2233" stroke-width="2"/>
+      <ellipse cx="118" cy="82" rx="18" ry="9" fill="#C7CFB4"/>
+      <g fill="#2B2233"><circle cx="110" cy="80" r="2.2"/><circle cx="118" cy="78" r="2.2"/><circle cx="126" cy="81" r="2.2"/><circle cx="114" cy="86" r="2.2"/><circle cx="122" cy="86" r="2.2"/></g>
+    </symbol>
+    <symbol id="s-uchuva" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="120" rx="60" ry="6" fill="url(#gGround)"/>
+      <path d="M48 16 C20 40 24 84 50 100 C76 84 80 40 48 16Z" fill="#E9D5A4" stroke="#2B2233" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M48 16 C40 46 42 74 50 100 M48 16 C58 46 60 74 50 100 M48 16 C32 44 30 72 50 100" fill="none" stroke="#B89A5A" stroke-width="2"/>
+      <defs><linearGradient id="gUch" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC94D"/><stop offset="1" stop-color="#F08A00"/></linearGradient></defs>
+      <g stroke="#2B2233" stroke-width="3"><circle cx="96" cy="92" r="20" fill="url(#gUch)"/><circle cx="128" cy="96" r="18" fill="url(#gUch)"/><circle cx="112" cy="70" r="17" fill="url(#gUch)"/></g>
+      <circle cx="90" cy="86" r="6" fill="#fff" opacity=".55"/><circle cx="122" cy="90" r="5" fill="#fff" opacity=".55"/><circle cx="107" cy="65" r="5" fill="#fff" opacity=".55"/>
+    </symbol>
+    <symbol id="s-pitahaya" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="120" rx="60" ry="6" fill="url(#gGround)"/>
+      <ellipse cx="56" cy="70" rx="32" ry="42" fill="url(#gGold)" stroke="#2B2233" stroke-width="3"/>
+      <g fill="#F7E07A" stroke="#2B2233" stroke-width="2" stroke-linejoin="round"><path d="M40 44 l-10 -6 l12 0z"/><path d="M68 40 l8 -8 l0 12z"/><path d="M30 72 l-10 0 l10 -6z"/><path d="M84 66 l10 -2 l-8 8z"/><path d="M44 98 l-8 8 l2 -12z"/><path d="M74 96 l10 6 l-12 0z"/><path d="M56 26 l0 -10 l6 10z"/></g>
+      <ellipse cx="46" cy="54" rx="10" ry="16" fill="url(#gGloss)"/>
+      <ellipse cx="118" cy="88" rx="28" ry="30" fill="#F2C200" stroke="#2B2233" stroke-width="3"/>
+      <ellipse cx="118" cy="88" rx="22" ry="24" fill="#FFFDF6"/>
+      <g fill="#2B2233"><circle cx="108" cy="78" r="1.6"/><circle cx="116" cy="74" r="1.6"/><circle cx="126" cy="80" r="1.6"/><circle cx="112" cy="88" r="1.6"/><circle cx="122" cy="90" r="1.6"/><circle cx="108" cy="98" r="1.6"/><circle cx="118" cy="100" r="1.6"/><circle cx="128" cy="96" r="1.6"/><circle cx="118" cy="84" r="1.6"/><circle cx="104" cy="88" r="1.6"/></g>
+    </symbol>
+
+    <!-- ===== Para el juego (160x130) ===== -->
+    <symbol id="s-vueltiao" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="108" rx="60" ry="8" fill="url(#gGround)"/>
+      <g stroke="#2B2233" stroke-width="3">
+        <ellipse cx="80" cy="88" rx="70" ry="20" fill="#FFF8E6"/>
+        <ellipse cx="80" cy="88" rx="56" ry="15" fill="none"/>
+        <ellipse cx="80" cy="88" rx="42" ry="11" fill="none"/>
+        <path d="M50 86 C50 40 110 40 110 86" fill="#FFF8E6"/>
+        <path d="M52 74 H108 M54 62 H106 M60 52 H100" stroke-width="4"/>
+      </g>
+      <g fill="#2B2233"><path d="M24 92 l6 -4 l6 4 l6 -4 l6 4 M112 92 l6 -4 l6 4 l6 -4 l6 4" stroke="#2B2233" stroke-width="2.5" fill="none"/></g>
+    </symbol>
+    <symbol id="s-gorra" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="108" rx="56" ry="7" fill="url(#gGround)"/>
+      <g stroke="#2B2233" stroke-width="3" stroke-linejoin="round">
+        <path d="M30 90 C30 40 110 32 120 84 Z" fill="url(#gBlue)"/>
+        <path d="M110 84 C130 82 150 88 150 98 C130 100 116 96 104 92 Z" fill="#083A80"/>
+        <circle cx="76" cy="46" r="5" fill="#083A80"/>
+        <path d="M30 90 H120" />
+      </g>
+      <ellipse cx="62" cy="60" rx="16" ry="10" fill="url(#gGloss)"/>
+    </symbol>
+    <symbol id="s-corona" viewBox="0 0 160 130">
+      <ellipse cx="80" cy="112" rx="56" ry="7" fill="url(#gGround)"/>
+      <path d="M30 100 L24 40 L54 66 L80 30 L106 66 L136 40 L130 100 Z" fill="url(#gGold)" stroke="#2B2233" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="30" y="92" width="100" height="12" rx="3" fill="#E89A00" stroke="#2B2233" stroke-width="3"/>
+      <circle cx="80" cy="76" r="7" fill="#D7262E" stroke="#2B2233" stroke-width="2.5"/><circle cx="54" cy="82" r="5" fill="#0B4FA8" stroke="#2B2233" stroke-width="2.5"/><circle cx="106" cy="82" r="5" fill="#2E9E5B" stroke="#2B2233" stroke-width="2.5"/>
+    </symbol>
+    <symbol id="s-avion" viewBox="-30 -18 60 36">
+      <g stroke="#2B2233" stroke-width="2" stroke-linejoin="round">
+        <path d="M-4 -2 L-14 -16 L-8 -16 L8 -2 Z" fill="#B9C6D8"/>
+        <path d="M-26 0 C-26 -6 -20 -6 -18 -6 L18 -6 C26 -6 28 -2 28 0 C28 2 26 6 18 6 L-18 6 C-20 6 -26 6 -26 0Z" fill="#fff"/>
+        <path d="M-24 -4 L-28 -14 L-20 -14 L-14 -5" fill="#D7262E"/>
+        <path d="M-4 2 L-14 16 L-8 16 L8 2 Z" fill="#CFD8E6"/>
+      </g>
+      <g fill="#7CC8F7"><circle cx="-10" cy="-1.5" r="1.6"/><circle cx="-4" cy="-1.5" r="1.6"/><circle cx="2" cy="-1.5" r="1.6"/><circle cx="8" cy="-1.5" r="1.6"/></g>
+      <path d="M20 -4 C24 -4 26 -2 26 0 H20Z" fill="#16244A"/>
+      <path d="M-18 2 H18" stroke="#FCD116" stroke-width="2"/>
+    </symbol>
+  </defs>
+</svg>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="app">
+  <header class="top">
+    <div class="stop-label" id="stopLabel">Parada 1 · <span>Salida</span></div>
+    <div class="tools">
+      <button class="tool" type="button" id="sayBtn" aria-label="Escuchar esta parada">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>Escuchar
+      </button>
+      <button class="tool" type="button" id="fsBtn" aria-label="Pantalla completa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>Pantalla completa
+      </button>
+    </div>
+  </header>
+
+  <main class="stage" id="stage">
+
+    <!-- 1 · SALIDA -->
+    <section class="slide on" data-stop="Salida" data-say="¡Hola amigos! Hoy nos vamos de viaje a Colombia, un país lleno de colores, montañas y música. ¡Súbanse a la chiva! Es el bus de colores de los pueblos de Colombia. Tóquenle la bocina: ¡pi, pi!">
+      <div class="art"><img id="salidaImg" class="photo" src="img/chiva.jpg" alt="La chiva de colores con niños saludando por la ventana, en una carretera de montaña"></div>
+      <div class="copy">
+        <h1>¡Vamos a <em>Colombia</em>!</h1>
+        <p>Nos subimos a la <strong>chiva</strong>, el bus de colores que recorre los pueblos colombianos.</p>
+        <button class="big red" type="button" id="honk"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10h4l6-5v14l-6-5H3z"/><path d="M16 8l4-2M16 12h5M16 16l4 2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>¡Pi, pi! Bocina</button>
+      </div>
+    </section>
+
+    <!-- 2 · MAPA -->
+    <section class="slide" data-stop="Mapa" data-say="¿Dónde queda Colombia? Miren el mapa. Argentina está abajo, y Colombia está arriba, en la puntita de América del Sur. Está tan lejos que hay que volar en avión más de seis horas. ¡Abrochen los cinturones y volemos!">
+      <div class="art">
+        <div class="mapbox">
+          <img src="img/mapa.jpg" alt="Niños de Colombia tomados de la mano alrededor del mapa de América del Sur">
+          <svg viewBox="0 0 698 433" aria-hidden="true">
+            <path id="route" d="M400 395 C 500 360, 450 270, 330 246" fill="none" stroke="#fff" stroke-width="5" stroke-dasharray="2 12" stroke-linecap="round" opacity=".95"/>
+            <g id="pinCo">
+              <circle cx="330" cy="246" r="14" fill="none" stroke="#D7262E" stroke-width="4"><animate attributeName="r" values="12;30;12" dur="1.6s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="1.6s" repeatCount="indefinite"/></circle>
+              <circle cx="330" cy="246" r="11" fill="#D7262E" stroke="#fff" stroke-width="4"/>
+            </g>
+            <g font-family="Baloo 2, sans-serif" font-weight="800" font-size="26" text-anchor="middle">
+              <rect x="372" y="186" width="150" height="38" rx="19" fill="#FCD116" stroke="#16244A" stroke-width="3"/>
+              <text x="447" y="214" fill="#16244A">COLOMBIA</text>
+              <rect x="468" y="378" width="190" height="38" rx="19" fill="#74ACDF" stroke="#16244A" stroke-width="3"/>
+              <text x="563" y="406" fill="#16244A">ARGENTINA ↓</text>
+            </g>
+            <g id="plane" transform="translate(400 395) rotate(-19)">
+              <g transform="scale(1.5)" stroke="#16244A" stroke-width="1.8" stroke-linejoin="round">
+                <path d="M2 -3 L-6 -24 L-12 -24 L-8 -3 Z M2 3 L-6 24 L-12 24 L-8 3 Z" fill="#E6ECF5"/>
+                <path d="M-17 -2 L-23 -10 L-27 -10 L-24 -1 Z M-17 2 L-23 10 L-27 10 L-24 1 Z" fill="#E6ECF5"/>
+                <path d="M-26 0 C-26 -4 -20 -5 -12 -5 L14 -5 C22 -5 26 -2 26 0 C26 2 22 5 14 5 L-12 5 C-20 5 -26 4 -26 0 Z" fill="#fff"/>
+                <path d="M-24 0 H18" stroke="#D7262E" stroke-width="2.4"/>
+                <path d="M16 -3 C21 -3 24 -1 24 0 C24 1 21 3 16 3 Z" fill="#7CC8F7" stroke-width="1.2"/>
+              </g>
+              <animateMotion id="fly" begin="indefinite" dur="3.2s" fill="freeze" rotate="auto" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .35 1"><mpath href="#route"/></animateMotion>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>¿Dónde queda <em>Colombia</em>?</h2>
+        <p>Argentina está <strong>abajo</strong>. Colombia está <strong>arriba</strong>, en la puntita de América del Sur.</p>
+        <button class="big blue" type="button" id="flyBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 13l8-2 5-8h2l-2 8 5-1 2-3h2l-1 5 1 5h-2l-2-3-5-1 2 8h-2l-5-8-8-2z"/></svg>¡Volar a Colombia!</button>
+      </div>
+    </section>
+
+    <!-- 3 · BANDERA -->
+    <section class="slide" data-stop="Bandera" data-say="Esta es la bandera de Colombia. Tiene tres colores: amarillo, azul y rojo. ¡Toquen cada color para descubrir qué significa!">
+      <div class="art"><img class="photo" src="img/bandera.jpg" alt="La bandera de Colombia ondeando en una plaza junto a la chiva"></div>
+      <div class="copy">
+        <h2>La <em>bandera</em></h2>
+        <p>Tres colores. ¡El amarillo es el más grande!</p>
+        <div class="chips">
+          <button class="chip y" type="button" data-c="y">Amarillo</button>
+          <button class="chip b" type="button" data-c="b">Azul</button>
+          <button class="chip r" type="button" data-c="r">Rojo</button>
+        </div>
+        <div class="bubble" id="flagText">Toca un color para descubrir qué significa.</div>
+      </div>
+    </section>
+
+    <!-- 4 · CAFÉ -->
+    <section class="slide" data-stop="Café" data-say="En las montañas de Colombia crece el café. Primero es como una cerecita roja. Los campesinos la recogen a mano y la ponen en un canasto. Adentro tiene una semillita, y con esa semilla los grandes preparan un cafecito calentito. ¿Y ustedes en Argentina qué toman? ¡El mate!">
+      <div class="art"><img class="photo" src="img/cafe.jpg" alt="Un caficultor con su canasto de café saluda a la chiva en las montañas"></div>
+      <div class="copy">
+        <h2>El <em>café</em></h2>
+        <p>Crece en las montañas como <strong>cerecitas rojas</strong>. Los campesinos las recogen a mano en un canasto.</p>
+        <button class="big blue" type="button" id="coffeeBtn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 3c-1 1.5 1 2.5 0 4M12 3c-1 1.5 1 2.5 0 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Preparar un cafecito</button>
+      </div>
+    </section>
+
+    <!-- 5 · FLORES -->
+    <section class="slide" data-stop="Flores" data-say="Colombia es el país de las flores. En la ciudad de Medellín hay una fiesta muy linda: la Feria de las Flores. Los silleteros cargan en la espalda una silleta, que es como una tabla gigante llena de flores. ¡Pesa muchísimo! ¿Contamos los colores?">
+      <div class="art"><img class="photo" src="img/flores.jpg" alt="Un silletero carga una silleta gigante llena de flores en Medellín, junto a la chiva"></div>
+      <div class="copy">
+        <h2>La <em>Feria de las Flores</em></h2>
+        <p>En Medellín, los <strong>silleteros</strong> cargan en la espalda una tabla gigante llena de flores.</p>
+        <button class="big" type="button" id="flowerBtn"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="4"/><circle cx="18" cy="11" r="4"/><circle cx="15" cy="18" r="4"/><circle cx="9" cy="18" r="4"/><circle cx="6" cy="11" r="4"/><circle cx="12" cy="13" r="3" fill="#fff"/></svg>¡Lluvia de flores!</button>
+      </div>
+    </section>
+
+    <!-- 6 · ANIMALES -->
+    <section class="slide" data-stop="Animales" data-say="Colombia es el país con más pajaritos del mundo, y tiene animales muy especiales. ¡Toquen cada animal para escucharlo y después imítenlo!">
+      <div class="art">
+        <div class="cards">
+          <button class="card" type="button" data-animal="colibri"><img class="cut" src="img/colibri.webp" alt=""><b>Colibrí</b></button>
+          <button class="card" type="button" data-animal="condor"><img src="img/condor.jpg" alt=""><b>Cóndor</b></button>
+          <button class="card" type="button" data-animal="tucan"><img class="cut" src="img/tucan.webp" alt=""><b>Tucán</b></button>
+          <button class="card" type="button" data-animal="oso"><img class="cut" src="img/oso.webp" alt=""><b>Oso de anteojos</b></button>
+          <button class="card" type="button" data-animal="delfin"><img class="cut" src="img/delfin.webp" alt=""><b>Delfín rosado</b></button>
+          <button class="card" type="button" data-animal="flamenco"><img class="cut" src="img/flamenco.webp" alt=""><b>Flamenco</b></button>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>Los <em>animales</em></h2>
+        <p>Colombia es el país con <strong>más pajaritos</strong> del mundo.</p>
+        <div class="bubble" id="animalText">Toca un animal para escucharlo… ¡y después lo imitamos todos!</div>
+      </div>
+    </section>
+
+    <!-- 7 · FRUTAS -->
+    <section class="slide" data-stop="Frutas" data-say="En Colombia hay frutas que acá casi no se ven, ¡con nombres muy chistosos! Toquen cada fruta para conocerla, y hagan la cara de cómo sabe.">
+      <div class="art"><img class="photo" src="img/frutas.jpg" alt="Canasto con frutas colombianas: mango, guayaba, maracuyá, gulupa, granadilla, guanábana, uchuva, pitahaya y tomate de árbol"></div>
+      <div class="copy">
+        <h2>Frutas <em>raras</em> y ricas</h2>
+        <div class="fchips"><button class="fchip" type="button" data-fruit="mango">Mango</button><button class="fchip" type="button" data-fruit="guayaba">Guayaba</button><button class="fchip" type="button" data-fruit="maracuya">Maracuyá</button><button class="fchip" type="button" data-fruit="gulupa">Gulupa</button><button class="fchip" type="button" data-fruit="granadilla">Granadilla</button><button class="fchip" type="button" data-fruit="guanabana">Guanábana</button><button class="fchip" type="button" data-fruit="uchuva">Uchuva</button><button class="fchip" type="button" data-fruit="pitahaya">Pitahaya</button><button class="fchip" type="button" data-fruit="tomate">Tomate de árbol</button></div>
+        <div class="bubble" id="fruitText">Toca un nombre y busquen juntos esa fruta en el canasto.</div>
+      </div>
+    </section>
+
+    <!-- 8 · COMIDA -->
+    <section class="slide" data-stop="Comida" data-say="¡Juguemos! ¿Esto es de Colombia o de Argentina? Toquen cada comida para descubrirlo.">
+      <div class="art">
+        <div class="cards">
+          <button class="card" type="button" data-food="arepa"><img class="cut" src="img/arepa.webp" alt=""><b>Arepa</b><span class="tag co">¡De Colombia!</span></button>
+          <button class="card" type="button" data-food="mate"><img class="cut" src="img/mate.webp" alt=""><b>Mate</b><span class="tag ar">¡De Argentina!</span></button>
+          <button class="card" type="button" data-food="empanada"><img class="cut" src="img/empanada.webp" alt=""><b>Empanada</b><span class="tag both">¡De los dos!</span></button>
+          <button class="card" type="button" data-food="tinto"><img class="cut" src="img/tinto.webp" alt=""><b>Tinto</b><span class="tag co">¡De Colombia!</span></button>
+          <button class="card" type="button" data-food="arequipe"><img class="cut" src="img/arequipe.webp" alt=""><b>Dulce de leche</b><span class="tag both">¡De los dos!</span></button>
+          <button class="card" type="button" data-food="alfajor"><img class="cut" src="img/alfajor.webp" alt=""><b>Alfajor</b><span class="tag ar">¡De Argentina!</span></button>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>¿De <em>Colombia</em> o de Argentina?</h2>
+        <div class="bubble" id="foodText">Toca cada comida para descubrir de dónde es.</div>
+      </div>
+    </section>
+
+    <!-- 9 · CARTAGENA -->
+    <section class="slide" data-stop="Cartagena" data-say="Ahora llegamos al mar Caribe, a la ciudad de Cartagena. Tiene casitas de colores con balcones llenos de flores, una muralla muy antigua y unas señoras muy alegres que se llaman palenqueras, que venden frutas en una ponchera sobre la cabeza. ¡Escuchen las olas! Hagamos olas con los brazos.">
+      <div class="art">
+        <div class="gallery">
+          <div class="gmain"><img class="photo" src="img/cartagena.jpg" alt="La palenquera y la muralla"><span class="gcap">La palenquera y la muralla</span></div>
+          <div class="thumbs"><button type="button" class="thumb on" data-src="img/cartagena.jpg" data-cap="La palenquera y la muralla"><img src="img/t-cartagena.jpg" alt="La palenquera y la muralla"></button><button type="button" class="thumb" data-src="img/cartagena-calle.jpg" data-cap="Las calles de colores"><img src="img/t-cartagena-calle.jpg" alt="Las calles de colores"></button><button type="button" class="thumb" data-src="img/cartagena-castillo.jpg" data-cap="El Castillo de San Felipe"><img src="img/t-cartagena-castillo.jpg" alt="El Castillo de San Felipe"></button><button type="button" class="thumb" data-src="img/cartagena-islas.jpg" data-cap="Las islas del mar Caribe"><img src="img/t-cartagena-islas.jpg" alt="Las islas del mar Caribe"></button></div>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>El mar de <em>Cartagena</em></h2>
+        <p>Casitas de colores, una <strong>muralla</strong> antigua y las <strong>palenqueras</strong> con frutas en la cabeza.</p>
+        <button class="big blue" type="button" id="waveBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M2 14c3 0 3-3 6-3s3 3 6 3 3-3 6-3 2 1 2 1M2 19c3 0 3-3 6-3s3 3 6 3 3-3 6-3 2 1 2 1"/></svg>Escuchar el mar</button>
+      </div>
+    </section>
+
+    <!-- MAGDALENA -->
+    <section class="slide" data-stop="Magdalena" data-say="Seguimos por la costa hasta el Magdalena. Aquí está Santa Marta, la ciudad más antigua de Colombia, al lado del mar. Muy cerquita está la Sierra Nevada, ¡una montaña con nieve al lado de la playa! En la selva hay una Ciudad Perdida de piedra, y allí viven familias indígenas que cuidan la montaña. Y en Aracataca, un pueblito del Magdalena, nació Gabriel García Márquez, Gabo, un escritor famoso en todo el mundo que inventaba cuentos llenos de magia y de mariposas amarillas.">
+      <div class="art">
+        <div class="gallery">
+          <div class="gmain"><img class="photo" src="img/mg-santamarta.jpg" alt="La bahía de Santa Marta"><span class="gcap">La bahía de Santa Marta</span></div>
+          <div class="thumbs"><button type="button" class="thumb on" data-src="img/mg-santamarta.jpg" data-cap="La bahía de Santa Marta"><img src="img/t-mg-santamarta.jpg" alt="La bahía de Santa Marta"></button><button type="button" class="thumb" data-src="img/mg-sierra.jpg" data-cap="La Sierra Nevada con nieve"><img src="img/t-mg-sierra.jpg" alt="La Sierra Nevada con nieve"></button><button type="button" class="thumb" data-src="img/mg-ciudadperdida.jpg" data-cap="La Ciudad Perdida"><img src="img/t-mg-ciudadperdida.jpg" alt="La Ciudad Perdida"></button><button type="button" class="thumb" data-src="img/mg-indigenas.jpg" data-cap="Familias indígenas de la Sierra"><img src="img/t-mg-indigenas.jpg" alt="Familias indígenas de la Sierra"></button><button type="button" class="thumb" data-src="img/mg-gabo.jpg" data-cap="Gabo, el escritor de Aracataca"><img src="img/t-mg-gabo.jpg" alt="Gabriel García Márquez"></button></div>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>El <em>Magdalena</em></h2>
+        <p>En <strong>Santa Marta</strong> hay mar y, muy cerquita, ¡una montaña con <strong>nieve</strong>! Y aquí nació <strong>Gabo</strong>, el escritor de las mariposas amarillas.</p>
+        <button class="big blue" type="button" id="nieveBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v20M3.5 7l17 10M3.5 17l17-10M9 4l3 2 3-2M9 20l3-2 3 2"/></svg>¡De la playa a la nieve!</button>
+      </div>
+    </section>
+
+    <!-- LA GUAJIRA -->
+    <section class="slide" data-stop="La Guajira" data-say="Ahora la chiva llega a La Guajira, al norte de Colombia. Allí hay desierto, cactus y lagunas de agua salada donde viven los flamencos rosados. ¿Saben cómo duermen? ¡Parados en una sola patita!">
+      <div class="art">
+        <div class="gallery">
+          <div class="gmain"><img class="photo" src="img/guajira.jpg" alt="La chiva en el desierto"><span class="gcap">La chiva en el desierto</span></div>
+          <div class="thumbs"><button type="button" class="thumb on" data-src="img/guajira.jpg" data-cap="La chiva en el desierto"><img src="img/t-guajira.jpg" alt="La chiva en el desierto"></button><button type="button" class="thumb" data-src="img/gu-flamencos.jpg" data-cap="Los flamencos rosados"><img src="img/t-gu-flamencos.jpg" alt="Los flamencos rosados"></button><button type="button" class="thumb" data-src="img/gu-wayuu.jpg" data-cap="Las mochilas wayuu"><img src="img/t-gu-wayuu.jpg" alt="Las mochilas wayuu"></button><button type="button" class="thumb" data-src="img/gu-desierto.jpg" data-cap="El desierto junto al mar"><img src="img/t-gu-desierto.jpg" alt="El desierto junto al mar"></button></div>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>Los flamencos de <em>La Guajira</em></h2>
+        <p>Desierto, cactus y lagunas con <strong>flamencos rosados</strong> que duermen en una sola pata.</p>
+        <button class="big red" type="button" id="flamBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 3v18M12 13l-4 3 4 1"/></svg>¡Todos en una patita!</button>
+      </div>
+    </section>
+
+    <!-- LOS LLANOS -->
+    <section class="slide" data-stop="Los Llanos" data-say="Seguimos a los Llanos, una sabana enorme y plana con ríos, vacas, garzas, guacamayas y unos pájaros rojos que se llaman corocoras. En el agua vive el chigüiro, el roedor más grande del mundo. ¡En Argentina le dicen carpincho!">
+      <div class="art">
+        <div class="gallery">
+          <div class="gmain"><img class="photo" src="img/llanos.jpg" alt="Los chigüiros del río"><span class="gcap">Los chigüiros del río</span></div>
+          <div class="thumbs"><button type="button" class="thumb on" data-src="img/llanos.jpg" data-cap="Los chigüiros del río"><img src="img/t-llanos.jpg" alt="Los chigüiros del río"></button><button type="button" class="thumb" data-src="img/ll-llanero.jpg" data-cap="El llanero y su caballo"><img src="img/t-ll-llanero.jpg" alt="El llanero y su caballo"></button><button type="button" class="thumb" data-src="img/ll-vacas.jpg" data-cap="Las vacas de la sabana"><img src="img/t-ll-vacas.jpg" alt="Las vacas de la sabana"></button></div>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>Los <em>Llanos</em></h2>
+        <p>El <strong>chigüiro</strong> vive en el agua. ¡En Argentina le dicen <strong>carpincho</strong>!</p>
+        <button class="big green" type="button" id="llanoBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>Escuchar el llano</button>
+      </div>
+    </section>
+
+    <!-- EL PACÍFICO -->
+    <section class="slide" data-stop="El Pacífico" data-say="Y ahora vamos al otro mar de Colombia, el océano Pacífico. Hay selva que llega hasta la playa, y entre julio y octubre llegan las ballenas jorobadas a tener a sus bebés. ¡Miren cómo saltan fuera del agua! ¡Splash!">
+      <div class="art">
+        <div class="gallery">
+          <div class="gmain"><img class="photo" src="img/pacifico.jpg" alt="La chiva frente al mar"><span class="gcap">La chiva frente al mar</span></div>
+          <div class="thumbs"><button type="button" class="thumb on" data-src="img/pacifico.jpg" data-cap="La chiva frente al mar"><img src="img/t-pacifico.jpg" alt="La chiva frente al mar"></button><button type="button" class="thumb" data-src="img/pa-ballena.jpg" data-cap="La ballena jorobada"><img src="img/t-pa-ballena.jpg" alt="La ballena jorobada"></button><button type="button" class="thumb" data-src="img/pa-bahia.jpg" data-cap="La selva llega a la playa"><img src="img/t-pa-bahia.jpg" alt="La selva llega a la playa"></button><button type="button" class="thumb" data-src="img/pa-playa.jpg" data-cap="Playas entre palmeras y rocas"><img src="img/t-pa-playa.jpg" alt="Playas entre palmeras y rocas"></button></div>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>Las ballenas del <em>Pacífico</em></h2>
+        <p>Cada año llegan las <strong>ballenas jorobadas</strong> a tener a sus bebés. ¡Y saltan fuera del agua!</p>
+        <button class="big blue" type="button" id="whaleBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M2 14c3 0 3-3 6-3s3 3 6 3 3-3 6-3 2 1 2 1M2 19c3 0 3-3 6-3s3 3 6 3 3-3 6-3 2 1 2 1"/></svg>Escuchar a la ballena</button>
+      </div>
+    </section>
+
+    <!-- 10 · CARNAVAL -->
+    <section class="slide" data-stop="Barranquilla" data-say="En la ciudad de Barranquilla se hace uno de los carnavales más grandes del mundo. La gente se disfraza y baila por la calle durante días. Este es la Marimonda, un disfraz con orejas grandes y una nariz larguísima. ¡Que empiece el desfile!">
+      <div class="art" id="carnavalArt">
+        <div class="gallery">
+          <div class="gmain"><img class="photo" src="img/carnaval.jpg" alt="El Carnaval de Barranquilla"><span class="gcap">El Carnaval de Barranquilla</span></div>
+          <div class="thumbs"><button type="button" class="thumb on" data-src="img/carnaval.jpg" data-cap="El Carnaval de Barranquilla"><img src="img/t-carnaval.jpg" alt="El Carnaval de Barranquilla"></button><button type="button" class="thumb" data-src="img/bq-congos.jpg" data-cap="Los Congos del Carnaval"><img src="img/t-bq-congos.jpg" alt="Los Congos del Carnaval"></button><button type="button" class="thumb" data-src="img/bq-ventana-mundo.jpg" data-cap="La Ventana al Mundo"><img src="img/t-bq-ventana-mundo.jpg" alt="La Ventana al Mundo"></button><button type="button" class="thumb" data-src="img/bq-ventana-campeones.jpg" data-cap="La Ventana de Campeones"><img src="img/t-bq-ventana-campeones.jpg" alt="La Ventana de Campeones"></button><button type="button" class="thumb" data-src="img/bq-shakira.jpg" data-cap="La estatua de Shakira"><img src="img/t-bq-shakira.jpg" alt="La estatua de Shakira"></button></div>
+        </div>
+      </div>
+      <div class="copy">
+        <h2>¡El <em>Carnaval</em>!</h2>
+        <p>En Barranquilla la gente se disfraza y baila por la calle. Esta es la <strong>Marimonda</strong>: orejas grandes y nariz larguísima.</p>
+        <button class="big red" type="button" data-music="carnaval" data-label="¡Que empiece el desfile!"><svg viewBox="0 0 24 24" fill="currentColor" class="ico"><path d="M7 4l13 8-13 8z"/></svg><span class="lbl">¡Que empiece el desfile!</span></button>
+      </div>
+    </section>
+
+    <!-- 11 · CUMBIA -->
+    <section class="slide" data-stop="Cumbia" data-say="La cumbia es el baile más alegre de Colombia. ¡Pongan la música y bailemos! Pasitos cortitos arrastrando los pies, y las manos como si movieran una falda grande. El niño baila con el sombrero vueltiao.">
+      <div class="art" id="danceArt"><img class="photo" src="img/cumbia.jpg" alt="Pareja bailando cumbia: ella con pollera blanca y él con sombrero y pañuelo rojo"></div>
+      <div class="copy">
+        <h2>¡A bailar <em>cumbia</em>!</h2>
+        <button class="big red" type="button" data-music="cumbia" data-label="Poner la música"><svg viewBox="0 0 24 24" fill="currentColor" class="ico"><path d="M7 4l13 8-13 8z"/></svg><span class="lbl">Poner la música</span></button>
+        <a class="big" href="https://www.youtube.com/shorts/vUHCNKsPSWk" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="5" width="20" height="14" rx="4" fill="#D7262E"/><path d="M10 9l5 3-5 3z" fill="#fff"/></svg>Ver video de cumbia</a>
+        <ol class="steps">
+          <li>Pasitos cortitos, arrastrando los pies.</li>
+          <li>Las manos mueven una falda grandota.</li>
+          <li>¡Una vueltita!</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 12 · FÚTBOL -->
+    <section class="slide" data-stop="Fútbol" data-say="¡En Colombia también nos encanta el fútbol, igual que en Argentina! La camiseta de la Selección Colombia es amarilla, como el sol. ¿Hacemos un gol? ¡Uno, dos, tres!">
+      <div class="art"><img id="futbolImg" class="photo" src="img/futbol.jpg" alt="Niños con la camiseta amarilla de Colombia jugando fútbol junto a la chiva"></div>
+      <div class="copy">
+        <h2>¡<em>Fútbol</em>!</h2>
+        <p>En Colombia también nos encanta. La camiseta de la Selección es <strong>amarilla</strong>.</p>
+        <button class="big" type="button" id="golBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z" fill="currentColor"/></svg>¡Uno, dos, tres… GOL!</button>
+      </div>
+    </section>
+
+    <!-- 13 · JUEGO -->
+    <section class="slide" data-stop="¿Te acuerdas?" data-say="¡Llegó el juego! Vamos a ver si se acuerdan de todo lo que vimos en el viaje.">
+      <div class="art">
+        <div class="cards" id="quizOpts"></div>
+      </div>
+      <div class="copy">
+        <h2>¿Te <em>acuerdas</em>?</h2>
+        <div class="quizq" id="quizQ"></div>
+        <div class="stars" id="stars" aria-label="Estrellas ganadas"></div>
+        <button class="big green" type="button" id="quizNext">Siguiente pregunta</button>
+      </div>
+    </section>
+
+    <!-- 14 · LLEGADA -->
+    <section class="slide" data-stop="Llegada" data-say="¡Gracias por viajar conmigo a Colombia! Colombia les manda un abrazo gigante. ¿Qué fue lo que más les gustó?">
+      <div class="art"><img class="photo" src="img/fiesta.jpg" alt="Fiesta en un pueblo colombiano con la chiva, arepas, frutas, músicos y niños bailando"></div>
+      <div class="copy">
+        <h1>¡Chao, chao, <em>amigos</em>!</h1>
+        <p>Colombia les manda un <strong>abrazo gigante</strong>.</p>
+        <button class="big" type="button" id="clapBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13l-2-2a1.6 1.6 0 0 1 2.3-2.3l4.2 4.2M9.5 9.5 7 7a1.6 1.6 0 0 1 2.3-2.3l4.5 4.5M11 6.5a1.6 1.6 0 0 1 2.3-2.3l4 4c2.5 2.5 2.5 6.5 0 9s-6.5 2.5-9 0L5 13.8"/></svg>¡Aplausos!</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="Paradas del viaje">
+    <button class="arrow" type="button" id="prev" aria-label="Parada anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="road">
+      <svg class="mini" id="mini" viewBox="0 0 60 36" aria-hidden="true">
+        <rect x="4" y="6" width="50" height="22" rx="5" fill="#FCD116" stroke="#16244A" stroke-width="3"/>
+        <rect x="4" y="18" width="50" height="5" fill="#0B4FA8"/><rect x="4" y="23" width="50" height="4" fill="#D7262E"/>
+        <rect x="10" y="10" width="9" height="7" fill="#BFE3FF"/><rect x="23" y="10" width="9" height="7" fill="#BFE3FF"/><rect x="36" y="10" width="12" height="7" fill="#BFE3FF"/>
+        <circle cx="16" cy="29" r="5" fill="#16244A"/><circle cx="44" cy="29" r="5" fill="#16244A"/>
+      </svg>
+      <div class="dots" id="dots"></div>
+    </div>
+    <button class="arrow" type="button" id="next" aria-label="Parada siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+</div>
+
+<script>
+/* ---------- Audio (todo sintetizado, sin archivos) ---------- */
+const A={ctx:null,master:null,noise:null};
+function ac(){
+  if(!A.ctx){const C=window.AudioContext||window.webkitAudioContext;A.ctx=new C();A.master=A.ctx.createGain();A.master.gain.value=.8;const comp=A.ctx.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=6;comp.attack.value=.003;comp.release.value=.2;A.master.connect(comp);comp.connect(A.ctx.destination);}
+  if(A.ctx.state==='suspended')A.ctx.resume();
+  return A.ctx;
+}
+function tone({f=440,t=0,d=.3,type='sine',v=.2,to=null,att=.01,rel=null,lp=null,q=.7,vib=0,vibR=6,am=0,amR=30}){
+  const c=ac(),s=c.currentTime+Math.max(0,t),o=c.createOscillator(),g=c.createGain();
+  o.type=type;o.frequency.setValueAtTime(f,s);if(to)o.frequency.exponentialRampToValueAtTime(to,s+d);
+  g.gain.setValueAtTime(0,s);g.gain.linearRampToValueAtTime(v,s+att);
+  if(rel!=null)g.gain.setValueAtTime(v,s+Math.max(att,d-rel));
+  g.gain.exponentialRampToValueAtTime(.0001,s+d);
+  let node=o;
+  if(vib){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=vibR;lg.gain.value=vib;l.connect(lg);lg.connect(o.detune);l.start(s);l.stop(s+d+.05);}
+  if(lp){for(let k=0;k<2;k++){const fl=c.createBiquadFilter();fl.type='lowpass';fl.frequency.value=lp;fl.Q.value=k?.7:q;node.connect(fl);node=fl;}}
+  if(am){const ag=c.createGain();ag.gain.value=1-am/2;const l=c.createOscillator(),lg=c.createGain();l.frequency.value=amR;lg.gain.value=am/2;l.connect(lg);lg.connect(ag.gain);l.start(s);l.stop(s+d+.05);node.connect(ag);node=ag;}
+  node.connect(g);g.connect(A.bus||A.master);o.start(s);o.stop(s+d+.05);
+}
+function noiseBuf(){const c=ac();if(!A.noise){A.noise=c.createBuffer(1,c.sampleRate*2,c.sampleRate);const d=A.noise.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;}return A.noise;}
+function noise({t=0,d=.2,v=.2,type='highpass',f=1000,q=1,toF=null,att=.005,pan=0}){
+  const c=ac(),s=c.currentTime+Math.max(0,t),src=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();
+  src.buffer=noiseBuf();src.loop=true;fl.type=type;fl.frequency.setValueAtTime(f,s);if(toF)fl.frequency.exponentialRampToValueAtTime(toF,s+d);fl.Q.value=q;
+  g.gain.setValueAtTime(0,s);g.gain.linearRampToValueAtTime(v,s+att);g.gain.exponentialRampToValueAtTime(.0001,s+d);
+  src.connect(fl);fl.connect(g);
+  if(pan&&c.createStereoPanner){const p=c.createStereoPanner();p.pan.value=pan;g.connect(p);p.connect(A.bus||A.master);}else g.connect(A.bus||A.master);
+  src.start(s,Math.random());src.stop(s+d+.05);
+}
+const R=(a,b)=>a+Math.random()*(b-a);
+const SFX={
+  pito(){[[0,.16],[.22,.16],[.44,.62]].forEach(([t,d])=>{[[440,'sawtooth',.09],[554,'sawtooth',.08],[220,'square',.035]].forEach(([f,ty,v])=>tone({f,to:f*.985,t,d,type:ty,v,att:.012,rel:.05,lp:1900,q:2}));});},
+  chime(base){[1,1.25,1.5,2].forEach((m,i)=>tone({f:base*m,t:i*.09,d:.6,type:'triangle',v:.14,lp:4000}));},
+  sparkle(){for(let i=0;i<10;i++)tone({f:R(1400,2600),t:i*.07,d:.3,v:.08});},
+  colibri(){tone({f:52,d:1.4,type:'sawtooth',v:.2,att:.15,rel:.4,lp:380,am:.6,amR:52});for(let i=0;i<7;i++)tone({f:R(3200,3800),to:R(4400,5200),t:.2+i*.15,d:.07,v:.06});},
+  condor(){noise({type:'bandpass',f:220,toF:900,d:1.1,v:.35,att:.45,q:.9});noise({type:'bandpass',f:900,toF:260,t:.9,d:1.2,v:.3,att:.3,q:.9});},
+  tucan(){for(let i=0;i<4;i++)tone({f:340,to:260,t:i*.3,d:.2,type:'sawtooth',v:.16,lp:1300,q:3,am:.8,amR:45});},
+  oso(){tone({f:95,to:70,d:1.3,type:'sawtooth',v:.35,att:.12,rel:.4,lp:520,q:1.5,am:.7,amR:26});tone({f:48,to:36,d:1.3,v:.2,att:.12,rel:.4});noise({type:'lowpass',f:320,d:1.2,v:.15,att:.15});},
+  delfin(){tone({f:1800,to:5200,d:.32,v:.12,vib:40,vibR:18});tone({f:4800,to:2200,t:.36,d:.36,v:.12,vib:40,vibR:18});for(let i=0;i<10;i++)noise({type:'bandpass',f:4000,q:2,t:.85+i*.045,d:.012,v:.18});},
+  rana(){for(let i=0;i<3;i++)tone({f:180,to:120,t:i*.32,d:.18,type:'square',v:.12,lp:900,q:4,am:.8,amR:35});},
+  cafe(){noise({type:'lowpass',f:900,d:1.2,v:.15,att:.2});for(let i=0;i<14;i++){const f=R(300,700);tone({f,to:f*1.7,t:.2+i*.11,d:.08,v:.12});}},
+  sizzle(){noise({type:'bandpass',f:5000,q:.5,d:1.4,v:.08,att:.15});for(let i=0;i<14;i++)noise({type:'bandpass',f:R(2500,4500),q:1,t:R(0,1.3),d:.015,v:.12});},
+  nam(){for(let i=0;i<3;i++){noise({type:'lowpass',f:700,t:i*.22,d:.1,v:.35});tone({f:240,to:180,t:i*.22+.08,d:.08,type:'triangle',v:.08});}},
+  olas(){noise({type:'lowpass',f:350,toF:1600,d:2.4,v:.45,att:1});noise({type:'lowpass',f:300,toF:1400,t:2.2,d:2.4,v:.4,att:1});for(let i=0;i<3;i++)tone({f:1500,to:950,t:.6+i*.45,d:.3,type:'triangle',v:.05});},
+  avion(){noise({type:'lowpass',f:250,toF:900,d:3.2,v:.4,att:1});tone({f:110,to:150,d:3.2,type:'sawtooth',v:.06,att:1,lp:600});},
+  gol(){tone({f:2900,d:.5,type:'square',v:.03,lp:4000,am:.9,amR:40});noise({type:'lowpass',f:200,t:.45,d:.15,v:.5});noise({type:'bandpass',f:700,t:.9,d:2.6,v:.6,att:.3,q:.6});SFX.aplausos(1);},
+  aplausos(delay=0){
+    const dur=3.2;
+    noise({type:'bandpass',f:1500,q:.6,t:delay,d:dur,v:.07,att:.35});
+    for(let p=0;p<14;p++){
+      const pan=R(-.8,.8),f=R(900,2000),q=R(.9,1.6),rate=R(.17,.26);
+      let t=R(0,.35);
+      while(t<dur){
+        const v=.16*Math.max(0,1-Math.pow(t/dur,2))*R(.6,1);
+        if(v>.01){noise({type:'bandpass',f:f*R(.92,1.08),q,t:delay+t,d:R(.05,.08),v,att:.002,pan});noise({type:'lowpass',f:420,t:delay+t,d:.035,v:v*.5,att:.002,pan});}
+        t+=rate*R(.85,1.2);
+      }
+    }
+  },
+  flamenco(){for(let i=0;i<4;i++){tone({f:620,to:520,t:i*.24,d:.17,type:'sawtooth',v:.14,lp:1600,q:5});tone({f:310,to:260,t:i*.24,d:.17,type:'square',v:.04,lp:1000});}},
+  llano(){tone({f:140,to:115,d:1.4,type:'sawtooth',v:.3,att:.2,rel:.5,lp:650,q:3,vib:15,vibR:5});for(let i=0;i<6;i++)tone({f:R(2400,3000),to:R(3200,3800),t:1.6+i*.14,d:.08,v:.06});noise({type:'lowpass',f:500,t:1.5,d:1.4,v:.08,att:.4});},
+  ballena(){[[0,260,520],[1.2,520,240],[2.5,200,420]].forEach(([t,a,b])=>{tone({f:a,to:b,t,d:1.3,v:.12,att:.3,vib:20,vibR:4});tone({f:a*1.5,to:b*1.5,t,d:1.3,v:.03,att:.3});});noise({type:'lowpass',f:250,toF:1600,t:3.6,d:1.2,v:.6,att:.05});},
+  boop(){tone({f:320,to:200,d:.35,type:'triangle',v:.12});},
+  boing(){tone({f:300,to:620,d:.16,type:'triangle',v:.06});}
+};
+const LEVEL={"aplausos":11,"avion":4.04,"ballena":2.48,"boing":6.28,"boop":4.4,"cafe":4.09,"chime":1.76,"colibri":1.81,"condor":5.38,"delfin":4.66,"flamenco":3.41,"gol":1.8,"llano":0.81,"nam":8.25,"olas":3.58,"oso":0.66,"pito":1.88,"rana":3.8,"sizzle":8.84,"sparkle":2.1,"tucan":5.92};
+Object.keys(SFX).forEach(k=>{const fn=SFX[k];SFX[k]=(...a)=>{const c=ac(),b=c.createGain();b.gain.value=LEVEL[k]||1;b.connect(A.master);const prev=A.bus;A.bus=b;try{fn(...a);}finally{A.bus=prev;}};});
+
+/* ---------- Música en bucle (cumbia y desfile de carnaval) ---------- */
+const ROOTS=[110,146.83,82.41,110];
+const CHORDS=[[220,261.63,329.63],[293.66,349.23,440],[207.65,246.94,329.63],[220,261.63,329.63]];
+const MEL=[[659,null,523,587,659,null,440,null],[698,null,659,587,440,null,587,null],[659,null,587,523,494,null,415,null],[440,494,523,659,880,null,null,null]];
+const TRACKS={cumbia:{bpm:96,el:'danceArt'},carnaval:{bpm:118,el:'carnavalArt'}};
+let playing=null,timer=null,nextT=0,step=0,E=.3;
+function playStep(i,when){
+  const c=ac(),t=when-c.currentTime,bar=Math.floor(i/8),s=i%8,root=ROOTS[bar];
+  if(s===0)tone({f:root,t,d:.35,v:.32,att:.005});
+  if(s===4)tone({f:root*1.5,t,d:.3,v:.26,att:.005});
+  if(s===6)tone({f:root,t,d:.2,v:.18,att:.005});
+  noise({type:'highpass',f:3800,t,d:(s===0||s===4)?.17:.05,v:(s===0||s===4)?.11:.06});
+  if(s===3||s===7)tone({f:230,to:170,t,d:.12,type:'triangle',v:.22});
+  if(s%2===1)CHORDS[bar].forEach(f=>tone({f,t,d:.12,type:'triangle',v:.035}));
+  const m=MEL[bar][s];
+  if(m){tone({f:m,t,d:.26,type:'triangle',v:.09});tone({f:m*1.003,t,d:.26,v:.04});}
+  if(playing==='carnaval'&&s===0&&bar%2===0){tone({f:2400,t,d:.08,type:'square',v:.03});tone({f:2400,t:t+.12,d:.08,type:'square',v:.03});}
+  if(playing==='carnaval'&&(s===2||s===6))noise({type:'bandpass',f:5000,t,d:.08,v:.08,q:2});
+}
+function schedule(){const c=ac();while(nextT<c.currentTime+.15){playStep(step,nextT);nextT+=E;step=(step+1)%32;}}
+function musicBtn(k,on){
+  const b=document.querySelector('[data-music="'+k+'"]');if(!b)return;
+  b.querySelector('.lbl').textContent=on?'Parar la música':b.dataset.label;
+  b.querySelector('.ico').innerHTML=on?'<rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/>':'<path d="M7 4l13 8-13 8z"/>';
+}
+const song=new Audio('img/wakawaka.mp3');song.loop=true;song.preload='auto';
+function stopMusic(){if(!playing)return;clearInterval(timer);try{song.pause();song.currentTime=0;}catch(e){}document.getElementById(TRACKS[playing].el).classList.remove('dancing');musicBtn(playing,false);playing=null;}
+function startMusic(k){
+  stopMusic();playing=k;
+  if(k==='carnaval'){try{song.currentTime=0;song.volume=1;song.play().catch(()=>{});}catch(e){}}
+  else{E=60/TRACKS[k].bpm/2;nextT=ac().currentTime+.05;step=0;timer=setInterval(schedule,25);}
+  document.getElementById(TRACKS[k].el).classList.add('dancing');musicBtn(k,true);
+  if(k==='carnaval')confetti();
+}
+document.querySelectorAll('[data-music]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.music;if(playing===k)stopMusic();else startMusic(k);}));
+
+/* ---------- Voz ---------- */
+/* Voces grabadas: nombre de la parada -> archivo */
+const VOZ={"Magdalena":"voz/10b-magdalena.mp3","Salida": "voz/01-salida.mp3", "Mapa": "voz/02-mapa-v3.mp3", "Bandera": "voz/03-bandera.mp3", "Café": "voz/04-cafe.mp3", "Flores": "voz/05-flores.mp3", "Animales": "voz/06-animales.mp3", "Frutas": "voz/07-frutas.mp3", "Comida": "voz/08-comida.mp3", "Cartagena": "voz/09-cartagena.mp3", "La Guajira": "voz/10-guajira.mp3", "Los Llanos": "voz/11-llanos.mp3", "El Pacífico": "voz/12-pacifico.mp3", "Barranquilla": "voz/13-carnaval.mp3", "Cumbia": "voz/14-cumbia.mp3", "Fútbol": "voz/15-futbol.mp3", "¿Te acuerdas?": "voz/16-juego.mp3", "Llegada": "voz/17-llegada.mp3"};
+let vozAudio=null;
+function stopVoz(){try{if(vozAudio){vozAudio.pause();vozAudio=null;}}catch(e){}}
+function narrate(){
+  stopVoz();try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}
+  const f=VOZ[slides[cur].dataset.stop];
+  if(f){vozAudio=new Audio(f);vozAudio.play().catch(()=>say(slides[cur].dataset.say));}
+  else say(slides[cur].dataset.say);
+}
+function say(text){ /* sin voz de computadora: solo se usan las grabaciones */ }
+try{window.speechSynthesis&&speechSynthesis.getVoices();}catch(e){}
+
+/* ---------- Diapositivas ---------- */
+const slides=[...document.querySelectorAll('.slide')];
+const dots=document.getElementById('dots'),mini=document.getElementById('mini');
+let cur=0;
+slides.forEach((sl,i)=>{
+  const b=document.createElement('button');b.type='button';b.className='dot';
+  b.setAttribute('aria-label','Ir a '+sl.dataset.stop);b.addEventListener('click',()=>go(i));dots.appendChild(b);
+});
+function placeMini(){const d=dots.children[cur];if(d)mini.style.left=(d.offsetLeft+d.offsetWidth/2-26)+'px';}
+function go(i,silent){
+  if(i<0||i>=slides.length)return;
+  stopMusic();
+  stopVoz();try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}
+  slides[cur].classList.remove('on');cur=i;slides[cur].classList.add('on');
+  document.getElementById('stage').scrollTop=0;
+  [...dots.children].forEach((d,j)=>d.classList.toggle('done',j<=cur));
+  document.getElementById('stopLabel').innerHTML='Parada '+(cur+1)+' de '+slides.length+' · <span>'+slides[cur].dataset.stop+'</span>';
+  document.getElementById('prev').disabled=cur===0;
+  document.getElementById('next').disabled=cur===slides.length-1;
+  placeMini();
+  if(!silent&&A.ctx)SFX.boing();
+  if(slides[cur].dataset.stop==='¿Te acuerdas?')startQuiz();
+  if(cur===slides.length-1&&!silent){confetti();SFX.aplausos();}
+}
+document.getElementById('prev').addEventListener('click',()=>go(cur-1));
+document.getElementById('next').addEventListener('click',()=>go(cur+1));
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();go(cur+1);}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
+});
+window.addEventListener('resize',placeMini);
+document.getElementById('sayBtn').addEventListener('click',()=>{ac();narrate();});
+document.getElementById('fsBtn').addEventListener('click',()=>{
+  try{const el=document.documentElement;
+    if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+    else if(el.requestFullscreen)el.requestFullscreen().then(placeMini).catch(()=>{});
+  }catch(e){}
+});
+const restart=(el,cls)=>{el.classList.remove(cls);void el.getBoundingClientRect();el.classList.add(cls);};
+
+/* Salida */
+let chivaAlt=false;
+document.getElementById('honk').addEventListener('click',()=>{SFX.pito();const im=document.getElementById('salidaImg');restart(im,'honked');setTimeout(()=>{chivaAlt=!chivaAlt;im.src=chivaAlt?'img/chiva-oso.jpg':'img/chiva.jpg';},600);});
+
+/* Mapa */
+document.getElementById('flyBtn').addEventListener('click',()=>{
+  const plane=document.getElementById('plane'),fly=document.getElementById('fly');
+  plane.removeAttribute('transform');SFX.avion();
+  try{fly.beginElement();}catch(e){}
+  setTimeout(()=>{SFX.chime(523);confetti();say('¡Llegamos a Colombia!');},3300);
+});
+
+/* Bandera */
+const FLAG={y:['<strong>Amarillo:</strong> es grandote, como el sol y el oro que brilla.',523],b:['<strong>Azul:</strong> son los dos mares que tiene Colombia.',392],r:['<strong>Rojo:</strong> es el corazón valiente de los colombianos.',440]};
+document.querySelectorAll('[data-c]').forEach(el=>el.addEventListener('click',()=>{
+  const c=el.dataset.c,box=document.getElementById('flagText');
+  box.innerHTML=FLAG[c][0];SFX.chime(FLAG[c][1]);
+  setTimeout(()=>say(box.textContent),550);
+}));
+
+/* Café */
+document.getElementById('coffeeBtn').addEventListener('click',()=>{SFX.cafe();setTimeout(()=>say('¡Mmm, qué rico huele el cafecito colombiano!'),1500);});
+
+/* Flores de la silleta */
+document.getElementById('flowerBtn').addEventListener('click',()=>{SFX.sparkle();confetti(['#E0399A','#FCD116','#D7262E','#fff','#9B59D0']);});
+
+/* Animales */
+const ANIM={
+  colibri:'El colibrí es chiquitito y mueve las alas súper rápido. ¡Muevan los brazos rapidito!',
+  condor:'El cóndor es un ave gigante que vuela alto en las montañas. ¡También vuela en Argentina! Abran los brazos y vuelen despacito.',
+  tucan:'El tucán tiene un pico enorme de colores. ¡Hagan un pico grande con las manos!',
+  oso:'El oso de anteojos parece que tuviera gafas. ¡Hagan anteojos con los dedos!',
+  delfin:'En el río Amazonas viven delfines rosados. ¡Naden como delfines!',
+  flamenco:'El flamenco es rosado y duerme parado en una sola patita. ¡Todos en una pata! ¿Quién aguanta más?'
+};
+document.querySelectorAll('[data-animal]').forEach(card=>card.addEventListener('click',()=>{
+  const k=card.dataset.animal;SFX[k]();restart(card,'playing');
+  document.getElementById('animalText').textContent=ANIM[k];
+  setTimeout(()=>say(ANIM[k]),1300);
+}));
+
+/* Frutas */
+const FRUIT={
+  mango:'El mango es grande, amarillo y rojo, ¡y muy dulce! Búsquenlo arriba a la izquierda.',
+  guayaba:'La guayaba es verde por fuera y rosada por dentro. Con ella se hace el bocadillo.',
+  maracuya:'El maracuyá es amarillo y por dentro tiene semillitas en un jugo muy ácido. ¡Pongan cara de ácido!',
+  gulupa:'La gulupa es morada por fuera y por dentro tiene semillitas amarillas. ¡Es prima del maracuyá!',
+  granadilla:'La granadilla tiene la cáscara naranja y dura. Adentro las semillas son resbalosas y se sorben. ¡Sluuurp!',
+  guanabana:'La guanábana es verde con pinchitos suaves, pero por dentro es blanca y dulce como un helado.',
+  uchuva:'La uchuva es una bolita naranja que viene envuelta en un vestidito de papel.',
+  pitahaya:'La pitahaya es rosada por fuera y blanca por dentro, con muchas semillitas negras.',
+  tomate:'El tomate de árbol no es como el tomate de la ensalada: con él se hace un jugo muy rico.'
+};
+document.querySelectorAll('[data-fruit]').forEach(card=>card.addEventListener('click',()=>{
+  const k=card.dataset.fruit;SFX.nam();document.querySelectorAll('.fchip').forEach(c=>c.classList.toggle('playing',c===card));
+  document.getElementById('fruitText').textContent=FRUIT[k];
+  setTimeout(()=>say(FRUIT[k]),800);
+}));
+
+/* Comida */
+const FOOD={
+  arepa:['¡La arepa es de Colombia! Es redondita, de maíz, y se come con quesito.','co'],
+  mate:['¡El mate es de Argentina! Ustedes lo conocen muy bien.','ar'],
+  empanada:['¡La empanada es de los dos! En Colombia y en Argentina nos encantan.','both'],
+  tinto:['¡El tinto es de Colombia! Así le dicen allá a una tacita de café.','co'],
+  arequipe:['¡Es de los dos! Acá se llama dulce de leche, y en Colombia se llama arequipe.','both'],
+  alfajor:['¡El alfajor es de Argentina! Con dulce de leche y coquito.','ar']
+};
+document.querySelectorAll('[data-food]').forEach(card=>card.addEventListener('click',()=>{
+  const [txt,kind]=FOOD[card.dataset.food];card.classList.add('shown');
+  document.getElementById('foodText').textContent=txt;
+  if(card.dataset.food==='arepa')SFX.sizzle();
+  if(kind==='co')SFX.chime(523);else if(kind==='ar')SFX.chime(392);else SFX.aplausos();
+  setTimeout(()=>say(txt),700);
+}));
+
+/* Galerías de fotos por ciudad */
+document.querySelectorAll('.gallery').forEach(g=>{
+  const main=g.querySelector('.gmain img'),cap=g.querySelector('.gcap');
+  g.querySelectorAll('.thumb').forEach(t=>t.addEventListener('click',()=>{
+    g.querySelectorAll('.thumb').forEach(x=>x.classList.toggle('on',x===t));
+    main.src=t.dataset.src;main.alt=t.dataset.cap;cap.textContent=t.dataset.cap;restart(main,'swap');
+    if(A.ctx)SFX.boing();
+  }));
+});
+
+/* Magdalena */
+document.getElementById('nieveBtn').addEventListener('click',()=>{
+  const g=document.querySelector('[data-stop="Magdalena"] .gallery');
+  const t=g&&g.querySelector('.thumb[data-src*="sierra"]');if(t)t.click();
+  SFX.sparkle();confetti(['#fff','#E6F2FF','#BFE3FF','#fff']);
+  setTimeout(()=>say('¡Brrr! En la Sierra Nevada hace mucho frío y hay nieve, ¡y abajo está la playa calientita!'),500);
+});
+
+/* Guajira, Llanos, Pacífico */
+document.getElementById('flamBtn').addEventListener('click',()=>{SFX.flamenco();setTimeout(()=>say('¡Todos en una patita, como los flamencos! Uno, dos, tres… ¿quién aguanta más?'),1100);});
+document.getElementById('llanoBtn').addEventListener('click',()=>{SFX.llano();});
+document.getElementById('whaleBtn').addEventListener('click',()=>{SFX.ballena();setTimeout(()=>say('¡Splash! Saltemos como ballenas.'),4900);});
+
+/* Mar */
+document.getElementById('waveBtn').addEventListener('click',()=>{SFX.olas();});
+
+/* Fútbol */
+document.getElementById('golBtn').addEventListener('click',()=>{
+  SFX.gol();restart(document.getElementById('futbolImg'),'honked');
+  setTimeout(()=>{confetti();say('¡Gooool de Colombia!');},1200);
+});
+
+/* Juego ¿Te acuerdas? */
+const QUIZ=[
+  {q:'¿Cuál es la bandera de Colombia?',o:['s-flag-ar','s-flag-co','s-flag-br'],ok:1,s:'¡Sí! Amarilla, azul y roja.'},
+  {q:'¿Qué animal tiene anteojos?',o:['s-delfin','s-tucan','s-oso'],ok:2,s:'¡El oso de anteojos!'},
+  {q:'¿Cuál comida es de Colombia?',o:['s-mate','s-arepa','s-alfajor'],ok:1,s:'¡La arepa!'},
+  {q:'¿Qué pajarito mueve las alas súper rápido?',o:['s-colibri','s-condor','s-tucan'],ok:0,s:'¡El colibrí!'},
+  {q:'¿Cuál es el sombrero de la cumbia?',o:['s-gorra','s-corona','s-vueltiao'],ok:2,s:'¡El sombrero vueltiao!'}
+];
+let qi=0,score=0,answered=false;
+const starSVG=on=>'<svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z" fill="'+(on?'#FCD116':'#E6E1D0')+'" stroke="#16244A" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+function renderStars(){document.getElementById('stars').innerHTML=QUIZ.map((_,i)=>starSVG(i<score)).join('');}
+function renderQ(){
+  answered=false;const Q=QUIZ[qi];
+  document.getElementById('quizQ').textContent=Q.q;
+  const box=document.getElementById('quizOpts');box.innerHTML='';
+  Q.o.forEach((sym,i)=>{
+    const b=document.createElement('button');b.type='button';b.className='card';
+    const IMG={'s-vueltiao':'vueltiao.webp','s-alfajor':'alfajor.webp','s-flag-ar':'flag-ar.webp','s-flag-br':'flag-br.webp','s-flag-co':'flag-co.webp','s-mate':'mate.webp','s-arepa':'arepa.webp','s-tucan':'tucan.webp','s-oso':'oso.webp','s-delfin':'delfin.webp','s-colibri':'colibri.webp','s-condor':'condor.jpg'};
+    b.innerHTML=IMG[sym]?'<img class="'+(IMG[sym].endsWith('webp')?'cut':'')+'" src="img/'+IMG[sym]+'" alt="">':'<svg viewBox="0 0 160 130"><use href="#'+sym+'"/></svg>';
+    b.setAttribute('aria-label','Opción '+(i+1));
+    b.addEventListener('click',()=>{
+      if(answered)return;
+      if(i===Q.ok){answered=true;b.classList.add('right');score++;renderStars();SFX.chime(523);SFX.aplausos(.3);setTimeout(()=>say(Q.s),500);}
+      else{restart(b,'wrong');SFX.boop();say('¡Casi! Intenta otra vez.');}
+    });
+    box.appendChild(b);
+  });
+  const nb=document.getElementById('quizNext');
+  nb.textContent=qi<QUIZ.length-1?'Siguiente pregunta':'Volver a jugar';
+}
+function startQuiz(){qi=0;score=0;renderStars();renderQ();}
+document.getElementById('quizNext').addEventListener('click',()=>{
+  if(qi<QUIZ.length-1){qi++;renderQ();setTimeout(()=>say(QUIZ[qi].q),200);}
+  else{startQuiz();}
+});
+startQuiz();
+
+/* Llegada */
+document.getElementById('clapBtn').addEventListener('click',()=>{SFX.aplausos();confetti();});
+
+/* Confeti con los colores de la bandera */
+const cv=document.getElementById('confetti'),cx=cv.getContext('2d');
+let parts=[],raf=null;
+function confetti(custom){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  cv.width=innerWidth;cv.height=innerHeight;
+  const cols=custom||['#FCD116','#FCD116','#0B4FA8','#D7262E'];
+  for(let i=0;i<160;i++)parts.push({x:R(0,cv.width),y:R(-cv.height*.6,-10),vx:R(-1.5,1.5),vy:R(2,5),r:R(5,10),a:R(0,6),va:R(-.2,.2),c:cols[i%4]});
+  if(!raf)loop();
+}
+function loop(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=p.va;cx.save();cx.translate(p.x,p.y);cx.rotate(p.a);cx.fillStyle=p.c;cx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);cx.restore();});
+  parts=parts.filter(p=>p.y<cv.height+20);
+  raf=parts.length?requestAnimationFrame(loop):(cx.clearRect(0,0,cv.width,cv.height),null);
+}
+
+go(0,true);
+requestAnimationFrame(placeMini);
+</script>
+
+</html>
